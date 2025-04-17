@@ -472,63 +472,90 @@ __turbopack_context__.s({
     "default": (()=>__TURBOPACK__default__export__)
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react/jsx-dev-runtime.js [client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react/index.js [client] (ecmascript)");
+;
+var _s = __turbopack_context__.k.signature();
 ;
 const Board = ({ len })=>{
-    const checkerLen = 600 / len;
+    _s();
     const cells = [];
-    let foodPosition = Math.floor(Math.random() * (len * len));
-    let snakeStartPosition = Math.floor(Math.random() * (len * len));
-    let snakeFinalPosition;
-    if ((snakeStartPosition + 1) % 20 != 0) {
-        snakeFinalPosition = snakeStartPosition + 1;
-    } else {
-        snakeFinalPosition = snakeStartPosition + 20;
-    }
+    const boardSize = len * len;
+    const cellSize = 600 / len;
+    const getRandomPosition = ()=>Math.floor(Math.random() * boardSize);
+    const [food, setFood] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(getRandomPosition());
+    const [snakeStartPosition, setSnakeStartPosition] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(getRandomPosition());
+    const [snakeFinalPosition, setSnakeFinalPosition] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(snakeStartPosition - 1);
+    const [snakePosition, setSnakePosition] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])([
+        snakeFinalPosition,
+        snakeStartPosition
+    ]);
+    console.log(snakeStartPosition);
+    console.log(snakeFinalPosition);
+    console.log(snakePosition);
+    console.log(food);
+    const goAhead = ()=>{
+        setSnakeStartPosition((prev)=>prev + 1);
+        setSnakeFinalPosition((prev)=>prev + 1);
+    };
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "Board.useEffect": ()=>{
+            const interval = setInterval({
+                "Board.useEffect.interval": ()=>{
+                    goAhead();
+                }
+            }["Board.useEffect.interval"], 1000);
+            // if ((snakeFinalPosition + 1) % len === 0) {
+            //     return () => clearInterval(interval)
+            // }
+            return ({
+                "Board.useEffect": ()=>clearInterval(interval)
+            })["Board.useEffect"];
+        }
+    }["Board.useEffect"], []);
     for(let index = 0; index < len * len; index++){
-        cells.push(/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: `${index == foodPosition ? "bg-red-500" : ""} ${index == snakeStartPosition || index == snakeFinalPosition ? "bg-blue-500" : ""} border-blue-500 border-1 h-[${checkerLen}px] w-[${checkerLen}px]`
+        const isFood = index === food;
+        // const isSnake = snakePosition.includes(index)
+        const isSnake = snakeStartPosition === index || snakeFinalPosition === index;
+        cells.push(// <div key={index} className={`${isFood ? "bg-red-500" : ""} ${isSnake ? "bg-blue-500" : ""} border-blue-500 border-1 h-[${cellSize}px] w-[${cellSize}px]`}></div>
+        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            style: {
+                height: cellSize,
+                width: cellSize
+            },
+            className: `${isFood ? "bg-red-500" : ""} ${isSnake ? "bg-blue-500" : ""} border-blue-500 border-1`
         }, index, false, {
             fileName: "[project]/src/components/board/index.tsx",
-            lineNumber: 19,
+            lineNumber: 39,
             columnNumber: 13
         }, this));
     }
-    const goAhead = (snakeFinalPosition)=>{
-        snakeStartPosition = snakeFinalPosition;
-        snakeFinalPosition = snakeStartPosition + 1;
-        cells.filter((snakeAhead)=>{
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: ` border-blue-500 border-1 h-[${checkerLen}px] w-[${checkerLen}px]`
-            }, snakeFinalPosition + 1, false, {
-                fileName: "[project]/src/components/board/index.tsx",
-                lineNumber: 26,
-                columnNumber: 13
-            }, this);
-        });
-    };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
-        className: "flex justify-center items-center  h-screen",
+        className: "flex justify-center items-center h-screen",
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
-            className: `w-[640px] h-[640px] border-black border-[${len}px]`,
+            className: "w-[640px] h-[640px] border-black border-[20px]",
             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
-                className: `grid grid-cols-${len}`,
+                className: "grid",
+                style: {
+                    gridTemplateColumns: `repeat(${len}, 1fr)`
+                },
                 children: cells
             }, void 0, false, {
                 fileName: "[project]/src/components/board/index.tsx",
-                lineNumber: 36,
-                columnNumber: 13
+                lineNumber: 47,
+                columnNumber: 17
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/components/board/index.tsx",
-            lineNumber: 35,
-            columnNumber: 9
+            lineNumber: 45,
+            columnNumber: 13
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/components/board/index.tsx",
-        lineNumber: 34,
-        columnNumber: 13
+        lineNumber: 44,
+        columnNumber: 9
     }, this);
 };
+_s(Board, "pkf9h4TGHidvi0/T/Z5cFSQNJvw=");
 _c = Board;
 const __TURBOPACK__default__export__ = Board;
 var _c;
@@ -552,7 +579,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$board$2
 function Home() {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["Fragment"], {
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$board$2f$index$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
-            len: 20
+            len: 10
         }, void 0, false, {
             fileName: "[project]/src/pages/index.tsx",
             lineNumber: 6,

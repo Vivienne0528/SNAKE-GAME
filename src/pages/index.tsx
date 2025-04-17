@@ -3,7 +3,7 @@ import Board from "@/components/board";
 export default function Home() {
   return (
     <>
-      <Board len={20} />
+      <Board len={10} />
     </>
   )
 }

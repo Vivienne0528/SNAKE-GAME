@@ -1,44 +1,60 @@
 //640*640->20*20
 
+import { useEffect, useState } from "react";
+
 const Board = ({ len }) => {
-    const checkerLen = 600 / len
     const cells = []
-    let foodPosition = Math.floor(Math.random() * (len * len))
-    let snakeStartPosition = Math.floor(Math.random() * (len * len))
-    let snakeFinalPosition
-    if ((snakeStartPosition + 1) % 20 != 0) {
-        snakeFinalPosition = snakeStartPosition + 1
-    } else {
-        snakeFinalPosition = snakeStartPosition + 20
+    const boardSize = len * len;
+    const cellSize = 600 / len
+    const getRandomPosition = () => Math.floor(Math.random() * boardSize)
+    const [food, setFood] = useState(getRandomPosition())
+    const [snakeStartPosition, setSnakeStartPosition] = useState(getRandomPosition())
+    const [snakeFinalPosition, setSnakeFinalPosition] = useState(snakeStartPosition - 1)
+    const [snakePosition, setSnakePosition] = useState([snakeFinalPosition, snakeStartPosition])
+    console.log(snakeStartPosition)
+    console.log(snakeFinalPosition)
+    console.log(snakePosition)
+    console.log(food)
+    const goAhead = () => {
+        setSnakeStartPosition(prev => prev + 1)
+        setSnakeFinalPosition(prev => prev + 1)
     }
+    useEffect(() => {
+        const interval = setInterval(() => {
+            goAhead()
+        }, 1000)
+        // if ((snakeFinalPosition + 1) % len === 0) {
+        //     return () => clearInterval(interval)
+        // }
+        return () => clearInterval(interval)
+    }, [])
 
 
     for (let index = 0; index < len * len; index++) {
-
+        const isFood = index === food;
+        // const isSnake = snakePosition.includes(index)
+        const isSnake = snakeStartPosition === index || snakeFinalPosition === index
         cells.push(
-            <div key={index} className={`${index == foodPosition ? "bg-red-500" : ""} ${index == snakeStartPosition || index == snakeFinalPosition ? "bg-blue-500" : ""} border-blue-500 border-1 h-[${checkerLen}px] w-[${checkerLen}px]`}></div>)
-    }
-    const goAhead = (snakeFinalPosition) => {
-
-        snakeStartPosition = snakeFinalPosition
-        snakeFinalPosition = snakeStartPosition + 1
-        cells.filter(snakeAhead => {
-            <div key={snakeFinalPosition + 1} className={` border-blue-500 border-1 h-[${checkerLen}px] w-[${checkerLen}px]`}></div>
-
-        })
+            // <div key={index} className={`${isFood ? "bg-red-500" : ""} ${isSnake ? "bg-blue-500" : ""} border-blue-500 border-1 h-[${cellSize}px] w-[${cellSize}px]`}></div>
+            <div key={index} style={{ height: cellSize, width: cellSize }} className={`${isFood ? "bg-red-500" : ""} ${isSnake ? "bg-blue-500" : ""} border-blue-500 border-1`}></div>
+        )
     }
 
-
-
-
-    return (<section className="flex justify-center items-center  h-screen">
-        <section className={`w-[640px] h-[640px] border-black border-[${len}px]`}>
-            <section className={`grid grid-cols-${len}`}>
-                {cells}
+    return (
+        <section className="flex justify-center items-center h-screen">
+            <section className="w-[640px] h-[640px] border-black border-[20px]">
+                {/* <section className={grid grid-cols-${len}}> */}
+                <section
+                    className="grid"
+                    style={{ gridTemplateColumns: `repeat(${len}, 1fr)` }}
+                >
+                    {cells}
+                </section>
             </section>
         </section>
-    </section>
-    )
+    );
+
+
 }
 
 export default Board
