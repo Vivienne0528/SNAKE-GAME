@@ -483,6 +483,7 @@ const Board = ({ len, boardSize })=>{
     const [food, setFood] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(0);
     const [snakeStartPosition, setSnakeStartPosition] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(0);
     const [snakeFinalPosition, setSnakeFinalPosition] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(0);
+    const [direction, setDirection] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])('RIGHT');
     const init = ()=>{
         let getFoodRandomPosition = Math.floor(Math.random() * boardSize);
         let getSnakeRandomPosition = Math.floor(Math.random() * boardSize);
@@ -490,34 +491,106 @@ const Board = ({ len, boardSize })=>{
         setSnakeStartPosition(getSnakeRandomPosition);
         setSnakeFinalPosition(getSnakeRandomPosition - 1);
     };
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "Board.useEffect": ()=>{
-            init();
-        }
-    }["Board.useEffect"], []);
-    const goAhead = ()=>{
-        setSnakeStartPosition((prev)=>prev + 1);
-        setSnakeFinalPosition((prev)=>prev + 1);
+    const arrowRight = ()=>{
+        setSnakeStartPosition((prev)=>{
+            setSnakeFinalPosition(prev);
+            return prev + 1;
+        });
+        setDirection('RIGHT');
+    };
+    const arrowLeft = ()=>{
+        setSnakeStartPosition((prev)=>{
+            setSnakeFinalPosition(prev);
+            return prev - 1;
+        });
+        setDirection('LEFT');
+    };
+    const arrowUp = ()=>{
+        setSnakeStartPosition((prev)=>{
+            setSnakeFinalPosition(prev);
+            return prev - len;
+        });
+        setDirection('UP');
+    };
+    const arrowDown = ()=>{
+        setSnakeStartPosition((prev)=>{
+            setSnakeFinalPosition(prev);
+            return prev + len;
+        });
+        setDirection('DOWN');
     };
     const isHitWall = (prev, now)=>{};
     const isGameOver = ()=>{};
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "Board.useEffect": ()=>{
+            init();
+        }
+    }["Board.useEffect"], []);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "Board.useEffect": ()=>{
             const interval = setInterval({
                 "Board.useEffect.interval": ()=>{
-                    goAhead();
-                    isHitWall();
+                    switch(direction){
+                        case 'UP':
+                            arrowUp();
+                            break;
+                        case 'RIGHT':
+                            arrowRight();
+                            break;
+                        case 'LEFT':
+                            arrowLeft();
+                            break;
+                        case 'DOWN':
+                            arrowDown();
+                            break;
+                    }
                     isGameOver();
                 }
             }["Board.useEffect.interval"], 1000);
-            // if ((snakeFinalPosition + 1) % len === 0) {
-            //     return () => clearInterval(interval)
-            // }
-            return ({
-                "Board.useEffect": ()=>clearInterval(interval)
-            })["Board.useEffect"];
+            if (!isHitWall()) {
+                return ({
+                    "Board.useEffect": ()=>clearInterval(interval)
+                })["Board.useEffect"];
+            }
         }
-    }["Board.useEffect"], []);
+    }["Board.useEffect"], [
+        direction
+    ]);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "Board.useEffect": ()=>{
+            if ("TURBOPACK compile-time truthy", 1) {
+                const handleKeyDown = {
+                    "Board.useEffect.handleKeyDown": (event)=>{
+                        const key = event.key;
+                        switch(key){
+                            case 'ArrowUp':
+                                if (direction !== 'DOWN') arrowUp();
+                                break;
+                            case 'ArrowRight':
+                                if (direction !== 'LEFT') arrowRight();
+                                break;
+                            case 'ArrowLeft':
+                                if (direction !== 'RIGHT') arrowLeft();
+                                break;
+                            case 'ArrowDown':
+                                if (direction !== 'UP') arrowDown();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }["Board.useEffect.handleKeyDown"];
+                // 让浏览器“监听”键盘是否被按下，如果按下了，就执行 handleKeyDown 函数。
+                window.addEventListener("keydown", handleKeyDown);
+                // 当组件卸载（比如页面离开或组件被移除）时，把之前注册的监听器“取消掉”。
+                return ({
+                    "Board.useEffect": ()=>window.removeEventListener("keydown", handleKeyDown)
+                })["Board.useEffect"];
+            }
+        }
+    }["Board.useEffect"], [
+        direction
+    ]);
     for(let index = 0; index < len * len; index++){
         const isFood = index === food;
         // const isSnake = snakePosition.includes(index)
@@ -531,7 +604,7 @@ const Board = ({ len, boardSize })=>{
             className: `${isFood ? "bg-red-500" : ""} ${isSnake ? "bg-blue-500" : ""} border-blue-500 border-1`
         }, index, false, {
             fileName: "[project]/src/components/board/index.tsx",
-            lineNumber: 54,
+            lineNumber: 118,
             columnNumber: 13
         }, this));
     }
@@ -547,21 +620,21 @@ const Board = ({ len, boardSize })=>{
                 children: cells
             }, void 0, false, {
                 fileName: "[project]/src/components/board/index.tsx",
-                lineNumber: 62,
+                lineNumber: 126,
                 columnNumber: 17
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/components/board/index.tsx",
-            lineNumber: 60,
+            lineNumber: 124,
             columnNumber: 13
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/components/board/index.tsx",
-        lineNumber: 59,
+        lineNumber: 123,
         columnNumber: 9
     }, this);
 };
-_s(Board, "U4kfuACBqNQlO5D9xLt3sdGWEbI=");
+_s(Board, "JelozO4UkVdvSvJd6vEywBBsiCw=");
 _c = Board;
 const __TURBOPACK__default__export__ = Board;
 var _c;

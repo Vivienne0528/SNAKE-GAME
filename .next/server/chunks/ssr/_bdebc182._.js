@@ -19,6 +19,7 @@ const Board = ({ len, boardSize })=>{
     const [food, setFood] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])(0);
     const [snakeStartPosition, setSnakeStartPosition] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])(0);
     const [snakeFinalPosition, setSnakeFinalPosition] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])(0);
+    const [direction, setDirection] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])('RIGHT');
     const init = ()=>{
         let getFoodRandomPosition = Math.floor(Math.random() * boardSize);
         let getSnakeRandomPosition = Math.floor(Math.random() * boardSize);
@@ -26,26 +27,70 @@ const Board = ({ len, boardSize })=>{
         setSnakeStartPosition(getSnakeRandomPosition);
         setSnakeFinalPosition(getSnakeRandomPosition - 1);
     };
-    (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useEffect"])(()=>{
-        init();
-    }, []);
-    const goAhead = ()=>{
-        setSnakeStartPosition((prev)=>prev + 1);
-        setSnakeFinalPosition((prev)=>prev + 1);
+    const arrowRight = ()=>{
+        setSnakeStartPosition((prev)=>{
+            setSnakeFinalPosition(prev);
+            return prev + 1;
+        });
+        setDirection('RIGHT');
+    };
+    const arrowLeft = ()=>{
+        setSnakeStartPosition((prev)=>{
+            setSnakeFinalPosition(prev);
+            return prev - 1;
+        });
+        setDirection('LEFT');
+    };
+    const arrowUp = ()=>{
+        setSnakeStartPosition((prev)=>{
+            setSnakeFinalPosition(prev);
+            return prev - len;
+        });
+        setDirection('UP');
+    };
+    const arrowDown = ()=>{
+        setSnakeStartPosition((prev)=>{
+            setSnakeFinalPosition(prev);
+            return prev + len;
+        });
+        setDirection('DOWN');
     };
     const isHitWall = (prev, now)=>{};
     const isGameOver = ()=>{};
     (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useEffect"])(()=>{
+        init();
+    }, []);
+    (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useEffect"])(()=>{
         const interval = setInterval(()=>{
-            goAhead();
-            isHitWall();
+            switch(direction){
+                case 'UP':
+                    arrowUp();
+                    break;
+                case 'RIGHT':
+                    arrowRight();
+                    break;
+                case 'LEFT':
+                    arrowLeft();
+                    break;
+                case 'DOWN':
+                    arrowDown();
+                    break;
+            }
             isGameOver();
         }, 1000);
-        // if ((snakeFinalPosition + 1) % len === 0) {
-        //     return () => clearInterval(interval)
-        // }
-        return ()=>clearInterval(interval);
-    }, []);
+        if (!isHitWall()) {
+            return ()=>clearInterval(interval);
+        }
+    }, [
+        direction
+    ]);
+    (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useEffect"])(()=>{
+        if ("TURBOPACK compile-time falsy", 0) {
+            "TURBOPACK unreachable";
+        }
+    }, [
+        direction
+    ]);
     for(let index = 0; index < len * len; index++){
         const isFood = index === food;
         // const isSnake = snakePosition.includes(index)
@@ -59,7 +104,7 @@ const Board = ({ len, boardSize })=>{
             className: `${isFood ? "bg-red-500" : ""} ${isSnake ? "bg-blue-500" : ""} border-blue-500 border-1`
         }, index, false, {
             fileName: "[project]/src/components/board/index.tsx",
-            lineNumber: 54,
+            lineNumber: 118,
             columnNumber: 13
         }, this));
     }
@@ -75,17 +120,17 @@ const Board = ({ len, boardSize })=>{
                 children: cells
             }, void 0, false, {
                 fileName: "[project]/src/components/board/index.tsx",
-                lineNumber: 62,
+                lineNumber: 126,
                 columnNumber: 17
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/components/board/index.tsx",
-            lineNumber: 60,
+            lineNumber: 124,
             columnNumber: 13
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/components/board/index.tsx",
-        lineNumber: 59,
+        lineNumber: 123,
         columnNumber: 9
     }, this);
 };

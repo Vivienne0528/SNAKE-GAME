@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 
 const Board = ({ len, boardSize }) => {
     const cells = []
-
     const cellSize = 600 / len
 
     const [food, setFood] = useState(0)
     const [snakeStartPosition, setSnakeStartPosition] = useState(0)
     const [snakeFinalPosition, setSnakeFinalPosition] = useState(0)
+    const [direction, setDirection] = useState('RIGHT')
 
     const init = () => {
         let getFoodRandomPosition = Math.floor(Math.random() * boardSize)
@@ -18,12 +18,35 @@ const Board = ({ len, boardSize }) => {
         setSnakeStartPosition(getSnakeRandomPosition)
         setSnakeFinalPosition(getSnakeRandomPosition - 1)
     }
-    useEffect(() => {
-        init()
-    }, [])
-    const goAhead = () => {
-        setSnakeStartPosition(prev => prev + 1)
-        setSnakeFinalPosition(prev => prev + 1)
+
+    const arrowRight = () => {
+        setSnakeStartPosition((prev) => {
+            setSnakeFinalPosition(prev)
+            return prev + 1
+        })
+        setDirection('RIGHT')
+
+    }
+    const arrowLeft = () => {
+        setSnakeStartPosition((prev) => {
+            setSnakeFinalPosition(prev)
+            return prev - 1
+        })
+        setDirection('LEFT')
+    }
+    const arrowUp = () => {
+        setSnakeStartPosition((prev) => {
+            setSnakeFinalPosition(prev)
+            return prev - len
+        })
+        setDirection('UP')
+    }
+    const arrowDown = () => {
+        setSnakeStartPosition((prev) => {
+            setSnakeFinalPosition(prev)
+            return prev + len
+        })
+        setDirection('DOWN')
     }
     const isHitWall = (prev, now) => {
 
@@ -31,18 +54,59 @@ const Board = ({ len, boardSize }) => {
     const isGameOver = () => {
 
     }
-
+    useEffect(() => {
+        init()
+    }, [])
     useEffect(() => {
         const interval = setInterval(() => {
-            goAhead()
-            isHitWall()
+            switch (direction) {
+                case 'UP':
+                    arrowUp()
+                    break
+                case 'RIGHT':
+                    arrowRight()
+                    break
+                case 'LEFT':
+                    arrowLeft()
+                    break
+                case 'DOWN':
+                    arrowDown()
+                    break
+            }
             isGameOver()
         }, 1000)
-        // if ((snakeFinalPosition + 1) % len === 0) {
-        //     return () => clearInterval(interval)
-        // }
-        return () => clearInterval(interval)
-    }, [])
+        if (!isHitWall()) {
+            return () => clearInterval(interval)
+        }
+    }, [direction])
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const handleKeyDown = (event) => {
+                const key = event.key;
+                switch (key) {
+                    case 'ArrowUp':
+                        if (direction !== 'DOWN') arrowUp()
+                        break
+                    case 'ArrowRight':
+                        if (direction !== 'LEFT') arrowRight()
+                        break
+                    case 'ArrowLeft':
+                        if (direction !== 'RIGHT') arrowLeft()
+                        break
+                    case 'ArrowDown':
+                        if (direction !== 'UP') arrowDown()
+                        break
+                    default:
+                        break
+                }
+            }
+            // 让浏览器“监听”键盘是否被按下，如果按下了，就执行 handleKeyDown 函数。
+            window.addEventListener("keydown", handleKeyDown);
+            // 当组件卸载（比如页面离开或组件被移除）时，把之前注册的监听器“取消掉”。
+            return () => window.removeEventListener("keydown", handleKeyDown);
+        }
+    }, [direction])
 
 
     for (let index = 0; index < len * len; index++) {
