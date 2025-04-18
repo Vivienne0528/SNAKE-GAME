@@ -2,26 +2,41 @@
 
 import { useEffect, useState } from "react";
 
-const Board = ({ len }) => {
+const Board = ({ len, boardSize }) => {
     const cells = []
-    const boardSize = len * len;
+
     const cellSize = 600 / len
-    const getRandomPosition = () => Math.floor(Math.random() * boardSize)
-    const [food, setFood] = useState(getRandomPosition())
-    const [snakeStartPosition, setSnakeStartPosition] = useState(getRandomPosition())
-    const [snakeFinalPosition, setSnakeFinalPosition] = useState(snakeStartPosition - 1)
-    const [snakePosition, setSnakePosition] = useState([snakeFinalPosition, snakeStartPosition])
-    console.log(snakeStartPosition)
-    console.log(snakeFinalPosition)
-    console.log(snakePosition)
-    console.log(food)
+
+    const [food, setFood] = useState(0)
+    const [snakeStartPosition, setSnakeStartPosition] = useState(0)
+    const [snakeFinalPosition, setSnakeFinalPosition] = useState(0)
+
+    const init = () => {
+        let getFoodRandomPosition = Math.floor(Math.random() * boardSize)
+        let getSnakeRandomPosition = Math.floor(Math.random() * boardSize)
+        setFood(getFoodRandomPosition)
+        setSnakeStartPosition(getSnakeRandomPosition)
+        setSnakeFinalPosition(getSnakeRandomPosition - 1)
+    }
+    useEffect(() => {
+        init()
+    }, [])
     const goAhead = () => {
         setSnakeStartPosition(prev => prev + 1)
         setSnakeFinalPosition(prev => prev + 1)
     }
+    const isHitWall = (prev, now) => {
+
+    }
+    const isGameOver = () => {
+
+    }
+
     useEffect(() => {
         const interval = setInterval(() => {
             goAhead()
+            isHitWall()
+            isGameOver()
         }, 1000)
         // if ((snakeFinalPosition + 1) % len === 0) {
         //     return () => clearInterval(interval)

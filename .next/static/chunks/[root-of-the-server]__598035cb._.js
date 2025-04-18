@@ -476,32 +476,38 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$ind
 ;
 var _s = __turbopack_context__.k.signature();
 ;
-const Board = ({ len })=>{
+const Board = ({ len, boardSize })=>{
     _s();
     const cells = [];
-    const boardSize = len * len;
     const cellSize = 600 / len;
-    const getRandomPosition = ()=>Math.floor(Math.random() * boardSize);
-    const [food, setFood] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(getRandomPosition());
-    const [snakeStartPosition, setSnakeStartPosition] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(getRandomPosition());
-    const [snakeFinalPosition, setSnakeFinalPosition] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(snakeStartPosition - 1);
-    const [snakePosition, setSnakePosition] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])([
-        snakeFinalPosition,
-        snakeStartPosition
-    ]);
-    console.log(snakeStartPosition);
-    console.log(snakeFinalPosition);
-    console.log(snakePosition);
-    console.log(food);
+    const [food, setFood] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(0);
+    const [snakeStartPosition, setSnakeStartPosition] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(0);
+    const [snakeFinalPosition, setSnakeFinalPosition] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(0);
+    const init = ()=>{
+        let getFoodRandomPosition = Math.floor(Math.random() * boardSize);
+        let getSnakeRandomPosition = Math.floor(Math.random() * boardSize);
+        setFood(getFoodRandomPosition);
+        setSnakeStartPosition(getSnakeRandomPosition);
+        setSnakeFinalPosition(getSnakeRandomPosition - 1);
+    };
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "Board.useEffect": ()=>{
+            init();
+        }
+    }["Board.useEffect"], []);
     const goAhead = ()=>{
         setSnakeStartPosition((prev)=>prev + 1);
         setSnakeFinalPosition((prev)=>prev + 1);
     };
+    const isHitWall = (prev, now)=>{};
+    const isGameOver = ()=>{};
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "Board.useEffect": ()=>{
             const interval = setInterval({
                 "Board.useEffect.interval": ()=>{
                     goAhead();
+                    isHitWall();
+                    isGameOver();
                 }
             }["Board.useEffect.interval"], 1000);
             // if ((snakeFinalPosition + 1) % len === 0) {
@@ -525,7 +531,7 @@ const Board = ({ len })=>{
             className: `${isFood ? "bg-red-500" : ""} ${isSnake ? "bg-blue-500" : ""} border-blue-500 border-1`
         }, index, false, {
             fileName: "[project]/src/components/board/index.tsx",
-            lineNumber: 39,
+            lineNumber: 54,
             columnNumber: 13
         }, this));
     }
@@ -541,21 +547,21 @@ const Board = ({ len })=>{
                 children: cells
             }, void 0, false, {
                 fileName: "[project]/src/components/board/index.tsx",
-                lineNumber: 47,
+                lineNumber: 62,
                 columnNumber: 17
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/components/board/index.tsx",
-            lineNumber: 45,
+            lineNumber: 60,
             columnNumber: 13
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/components/board/index.tsx",
-        lineNumber: 44,
+        lineNumber: 59,
         columnNumber: 9
     }, this);
 };
-_s(Board, "pkf9h4TGHidvi0/T/Z5cFSQNJvw=");
+_s(Board, "U4kfuACBqNQlO5D9xLt3sdGWEbI=");
 _c = Board;
 const __TURBOPACK__default__export__ = Board;
 var _c;
@@ -577,12 +583,15 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$board$2
 ;
 ;
 function Home() {
+    const len = 10;
+    const boardSize = len * len;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["Fragment"], {
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$board$2f$index$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
-            len: 10
+            len: len,
+            boardSize: boardSize
         }, void 0, false, {
             fileName: "[project]/src/pages/index.tsx",
-            lineNumber: 6,
+            lineNumber: 8,
             columnNumber: 7
         }, this)
     }, void 0, false);

@@ -1,9 +1,11 @@
 import Board from "@/components/board";
 
 export default function Home() {
+  const len = 10
+  const boardSize = len * len
   return (
     <>
-      <Board len={10} />
+      <Board len={len} boardSize={boardSize} />
     </>
   )
 }
