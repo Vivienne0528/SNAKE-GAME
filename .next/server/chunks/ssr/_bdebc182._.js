@@ -23,7 +23,10 @@ const Board = ({ len, boardSize })=>{
     const [direction, setDirection] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])('RIGHT');
     const init = ()=>{
         let getFoodRandomPosition = Math.floor(Math.random() * boardSize);
-        let getSnakeRandomPosition = Math.floor(Math.random() * boardSize);
+        let getSnakeRandomPosition;
+        do getSnakeRandomPosition = Math.floor(Math.random() * boardSize);
+        while (getFoodRandomPosition = getSnakeRandomPosition)
+        getFoodRandomPosition = Math.floor(Math.random() * boardSize);
         setFood(getFoodRandomPosition);
         setSnakeStartPosition(getSnakeRandomPosition);
         setSnakeFinalPosition(getSnakeRandomPosition - 1);
@@ -56,17 +59,22 @@ const Board = ({ len, boardSize })=>{
         });
         setDirection('DOWN');
     };
-    const isEatenFood = ()=>{
-        if (snakeStartPosition == food) {
-            setPoints((prev)=>prev + 1);
-            return true;
-        } else return false;
-    };
     const isHitWall = (prev, now)=>{};
     const isGameOver = ()=>{};
     (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useEffect"])(()=>{
         init();
     }, []);
+    (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useEffect"])(()=>{
+        if (snakeStartPosition == food) {
+            setPoints((prev)=>prev + 1);
+            let newFood;
+            do newFood = Math.floor(Math.random() * boardSize);
+            while (newFood === snakeStartPosition)
+            setFood(newFood);
+        }
+    }, [
+        snakeStartPosition
+    ]);
     (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useEffect"])(()=>{
         const interval = setInterval(()=>{
             switch(direction){
@@ -82,9 +90,6 @@ const Board = ({ len, boardSize })=>{
                 case 'DOWN':
                     arrowDown();
                     break;
-            }
-            if (isEatenFood()) {
-                setFood(Math.floor(Math.random() * boardSize));
             }
             isGameOver();
         }, 1000);
@@ -115,7 +120,7 @@ const Board = ({ len, boardSize })=>{
             className: `${isFood ? "bg-red-500" : ""} ${isSnake ? "bg-blue-500" : ""} border-blue-500 border-1`
         }, index, false, {
             fileName: "[project]/src/components/board/index.tsx",
-            lineNumber: 129,
+            lineNumber: 135,
             columnNumber: 13
         }, this));
     }
@@ -133,18 +138,18 @@ const Board = ({ len, boardSize })=>{
                     children: cells
                 }, void 0, false, {
                     fileName: "[project]/src/components/board/index.tsx",
-                    lineNumber: 138,
+                    lineNumber: 144,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/board/index.tsx",
-                lineNumber: 136,
+                lineNumber: 142,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/board/index.tsx",
-        lineNumber: 134,
+        lineNumber: 140,
         columnNumber: 9
     }, this);
 };

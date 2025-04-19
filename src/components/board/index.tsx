@@ -14,7 +14,9 @@ const Board = ({ len, boardSize }) => {
 
     const init = () => {
         let getFoodRandomPosition = Math.floor(Math.random() * boardSize)
-        let getSnakeRandomPosition = Math.floor(Math.random() * boardSize)
+        let getSnakeRandomPosition
+        do (getSnakeRandomPosition = Math.floor(Math.random() * boardSize))
+        while (getFoodRandomPosition = getSnakeRandomPosition) getFoodRandomPosition = Math.floor(Math.random() * boardSize)
         setFood(getFoodRandomPosition)
         setSnakeStartPosition(getSnakeRandomPosition)
         setSnakeFinalPosition(getSnakeRandomPosition - 1)
@@ -49,12 +51,8 @@ const Board = ({ len, boardSize }) => {
         })
         setDirection('DOWN')
     }
-    const isEatenFood = () => {
-        if (snakeStartPosition == food) {
-            setPoints(prev => prev + 1)
-            return true
-        } else return false
-    }
+
+
     const isHitWall = (prev, now) => {
 
     }
@@ -64,6 +62,16 @@ const Board = ({ len, boardSize }) => {
     useEffect(() => {
         init()
     }, [])
+
+    useEffect(() => {
+        if (snakeStartPosition == food) {
+            setPoints(prev => prev + 1)
+            let newFood
+            do (newFood = Math.floor(Math.random() * boardSize))
+            while (newFood === snakeStartPosition) setFood(newFood)
+        }
+    }, [snakeStartPosition])
+
     useEffect(() => {
         const interval = setInterval(() => {
             switch (direction) {
@@ -80,12 +88,10 @@ const Board = ({ len, boardSize }) => {
                     arrowDown()
                     break
             }
-            if (isEatenFood()) {
-                setFood(Math.floor(Math.random() * boardSize))
-            }
 
             isGameOver()
         }, 1000)
+
         if (!isHitWall()) {
             return () => clearInterval(interval)
         }

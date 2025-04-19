@@ -487,7 +487,10 @@ const Board = ({ len, boardSize })=>{
     const [direction, setDirection] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])('RIGHT');
     const init = ()=>{
         let getFoodRandomPosition = Math.floor(Math.random() * boardSize);
-        let getSnakeRandomPosition = Math.floor(Math.random() * boardSize);
+        let getSnakeRandomPosition;
+        do getSnakeRandomPosition = Math.floor(Math.random() * boardSize);
+        while (getFoodRandomPosition = getSnakeRandomPosition)
+        getFoodRandomPosition = Math.floor(Math.random() * boardSize);
         setFood(getFoodRandomPosition);
         setSnakeStartPosition(getSnakeRandomPosition);
         setSnakeFinalPosition(getSnakeRandomPosition - 1);
@@ -520,12 +523,6 @@ const Board = ({ len, boardSize })=>{
         });
         setDirection('DOWN');
     };
-    const isEatenFood = ()=>{
-        if (snakeStartPosition == food) {
-            setPoints((prev)=>prev + 1);
-            return true;
-        } else return false;
-    };
     const isHitWall = (prev, now)=>{};
     const isGameOver = ()=>{};
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
@@ -533,6 +530,21 @@ const Board = ({ len, boardSize })=>{
             init();
         }
     }["Board.useEffect"], []);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "Board.useEffect": ()=>{
+            if (snakeStartPosition == food) {
+                setPoints({
+                    "Board.useEffect": (prev)=>prev + 1
+                }["Board.useEffect"]);
+                let newFood;
+                do newFood = Math.floor(Math.random() * boardSize);
+                while (newFood === snakeStartPosition)
+                setFood(newFood);
+            }
+        }
+    }["Board.useEffect"], [
+        snakeStartPosition
+    ]);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "Board.useEffect": ()=>{
             const interval = setInterval({
@@ -550,9 +562,6 @@ const Board = ({ len, boardSize })=>{
                         case 'DOWN':
                             arrowDown();
                             break;
-                    }
-                    if (isEatenFood()) {
-                        setFood(Math.floor(Math.random() * boardSize));
                     }
                     isGameOver();
                 }
@@ -615,7 +624,7 @@ const Board = ({ len, boardSize })=>{
             className: `${isFood ? "bg-red-500" : ""} ${isSnake ? "bg-blue-500" : ""} border-blue-500 border-1`
         }, index, false, {
             fileName: "[project]/src/components/board/index.tsx",
-            lineNumber: 129,
+            lineNumber: 135,
             columnNumber: 13
         }, this));
     }
@@ -633,22 +642,22 @@ const Board = ({ len, boardSize })=>{
                     children: cells
                 }, void 0, false, {
                     fileName: "[project]/src/components/board/index.tsx",
-                    lineNumber: 138,
+                    lineNumber: 144,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/board/index.tsx",
-                lineNumber: 136,
+                lineNumber: 142,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/board/index.tsx",
-        lineNumber: 134,
+        lineNumber: 140,
         columnNumber: 9
     }, this);
 };
-_s(Board, "mlsQMuimQ4+eiswRivDOJd4gs+M=");
+_s(Board, "qObJ/uf9cgE5UvahqVu/FhjeEAg=");
 _c = Board;
 const __TURBOPACK__default__export__ = Board;
 var _c;
