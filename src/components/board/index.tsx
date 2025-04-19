@@ -6,6 +6,7 @@ const Board = ({ len, boardSize }) => {
     const cells = []
     const cellSize = 600 / len
 
+    const [points, setPoints] = useState(0)
     const [food, setFood] = useState(0)
     const [snakeStartPosition, setSnakeStartPosition] = useState(0)
     const [snakeFinalPosition, setSnakeFinalPosition] = useState(0)
@@ -48,6 +49,12 @@ const Board = ({ len, boardSize }) => {
         })
         setDirection('DOWN')
     }
+    const isEatenFood = () => {
+        if (snakeStartPosition == food) {
+            setPoints(prev => prev + 1)
+            return true
+        } else return false
+    }
     const isHitWall = (prev, now) => {
 
     }
@@ -73,12 +80,16 @@ const Board = ({ len, boardSize }) => {
                     arrowDown()
                     break
             }
+            if (isEatenFood()) {
+                setFood(Math.floor(Math.random() * boardSize))
+            }
+
             isGameOver()
         }, 1000)
         if (!isHitWall()) {
             return () => clearInterval(interval)
         }
-    }, [direction])
+    }, [food, direction])
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -121,6 +132,7 @@ const Board = ({ len, boardSize }) => {
 
     return (
         <section className="flex justify-center items-center h-screen">
+            {points}
             <section className="w-[640px] h-[640px] border-black border-[20px]">
                 {/* <section className={grid grid-cols-${len}}> */}
                 <section
@@ -132,8 +144,6 @@ const Board = ({ len, boardSize }) => {
             </section>
         </section>
     );
-
-
 }
 
 export default Board

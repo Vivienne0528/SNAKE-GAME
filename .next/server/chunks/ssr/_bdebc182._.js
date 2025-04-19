@@ -16,6 +16,7 @@ var __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$
 const Board = ({ len, boardSize })=>{
     const cells = [];
     const cellSize = 600 / len;
+    const [points, setPoints] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])(0);
     const [food, setFood] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])(0);
     const [snakeStartPosition, setSnakeStartPosition] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])(0);
     const [snakeFinalPosition, setSnakeFinalPosition] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])(0);
@@ -55,6 +56,12 @@ const Board = ({ len, boardSize })=>{
         });
         setDirection('DOWN');
     };
+    const isEatenFood = ()=>{
+        if (snakeStartPosition == food) {
+            setPoints((prev)=>prev + 1);
+            return true;
+        } else return false;
+    };
     const isHitWall = (prev, now)=>{};
     const isGameOver = ()=>{};
     (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useEffect"])(()=>{
@@ -76,12 +83,16 @@ const Board = ({ len, boardSize })=>{
                     arrowDown();
                     break;
             }
+            if (isEatenFood()) {
+                setFood(Math.floor(Math.random() * boardSize));
+            }
             isGameOver();
         }, 1000);
         if (!isHitWall()) {
             return ()=>clearInterval(interval);
         }
     }, [
+        food,
         direction
     ]);
     (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useEffect"])(()=>{
@@ -104,33 +115,36 @@ const Board = ({ len, boardSize })=>{
             className: `${isFood ? "bg-red-500" : ""} ${isSnake ? "bg-blue-500" : ""} border-blue-500 border-1`
         }, index, false, {
             fileName: "[project]/src/components/board/index.tsx",
-            lineNumber: 118,
+            lineNumber: 129,
             columnNumber: 13
         }, this));
     }
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("section", {
         className: "flex justify-center items-center h-screen",
-        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("section", {
-            className: "w-[640px] h-[640px] border-black border-[20px]",
-            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("section", {
-                className: "grid",
-                style: {
-                    gridTemplateColumns: `repeat(${len}, 1fr)`
-                },
-                children: cells
+        children: [
+            points,
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("section", {
+                className: "w-[640px] h-[640px] border-black border-[20px]",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("section", {
+                    className: "grid",
+                    style: {
+                        gridTemplateColumns: `repeat(${len}, 1fr)`
+                    },
+                    children: cells
+                }, void 0, false, {
+                    fileName: "[project]/src/components/board/index.tsx",
+                    lineNumber: 138,
+                    columnNumber: 17
+                }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/board/index.tsx",
-                lineNumber: 126,
-                columnNumber: 17
+                lineNumber: 136,
+                columnNumber: 13
             }, this)
-        }, void 0, false, {
-            fileName: "[project]/src/components/board/index.tsx",
-            lineNumber: 124,
-            columnNumber: 13
-        }, this)
-    }, void 0, false, {
+        ]
+    }, void 0, true, {
         fileName: "[project]/src/components/board/index.tsx",
-        lineNumber: 123,
+        lineNumber: 134,
         columnNumber: 9
     }, this);
 };
