@@ -471,10 +471,19 @@ __turbopack_context__.s({
     "useFunc": (()=>useFunc)
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react/index.js [client] (ecmascript)");
 var _s = __turbopack_context__.k.signature();
+;
 ;
 const useFunc = ()=>{
     _s();
+    const len = 10;
+    const boardSize = len * len;
+    const [points, setPoints] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(0);
+    const [food, setFood] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])();
+    const [snakeStartPosition, setSnakeStartPosition] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(0);
+    const [snakeFinalPosition, setSnakeFinalPosition] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(0);
+    const [direction, setDirection] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])('RIGHT');
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRouter"])();
     const welcome = ()=>{
         router.push("/");
@@ -482,12 +491,83 @@ const useFunc = ()=>{
     const playGame = ()=>{
         router.push("/game");
     };
+    const gameOver = ()=>{
+        router.push("/gameOver");
+    };
+    const init = ()=>{
+        let getFoodRandomPosition = Math.floor(Math.random() * boardSize);
+        let getSnakeRandomPosition;
+        do getSnakeRandomPosition = Math.floor(Math.random() * boardSize);
+        while (getFoodRandomPosition = getSnakeRandomPosition)
+        getFoodRandomPosition = Math.floor(Math.random() * boardSize);
+        setFood(getFoodRandomPosition);
+        setSnakeStartPosition(getSnakeRandomPosition);
+        setSnakeFinalPosition(getSnakeRandomPosition - 1);
+        setPoints(0);
+    };
+    const updateNewFood = ()=>{
+        if (snakeStartPosition == food) {
+            setPoints((prev)=>prev + 1);
+            let newFood;
+            do newFood = Math.floor(Math.random() * boardSize);
+            while (newFood === snakeStartPosition)
+            setFood(newFood);
+        }
+    };
+    const arrowRight = ()=>{
+        setSnakeStartPosition((prev)=>{
+            setSnakeFinalPosition(prev);
+            return prev + 1;
+        });
+        setDirection('RIGHT');
+    };
+    const arrowLeft = ()=>{
+        setSnakeStartPosition((prev)=>{
+            setSnakeFinalPosition(prev);
+            return prev - 1;
+        });
+        setDirection('LEFT');
+    };
+    const arrowUp = ()=>{
+        setSnakeStartPosition((prev)=>{
+            setSnakeFinalPosition(prev);
+            return prev - len;
+        });
+        setDirection('UP');
+    };
+    const arrowDown = ()=>{
+        setSnakeStartPosition((prev)=>{
+            setSnakeFinalPosition(prev);
+            return prev + len;
+        });
+        setDirection('DOWN');
+    };
+    const isHitWall = (pos)=>{
+        return pos < 0 || pos >= boardSize || direction === 'LEFT' && snakeStartPosition % len === 0 || direction === 'RIGHT' && snakeStartPosition % len === len - 1;
+    };
     return {
         welcome,
-        playGame
+        playGame,
+        gameOver,
+        updateNewFood,
+        init,
+        snakeStartPosition,
+        snakeFinalPosition,
+        food,
+        setPoints,
+        setFood,
+        arrowUp,
+        arrowRight,
+        arrowLeft,
+        arrowDown,
+        isHitWall,
+        direction,
+        points,
+        len,
+        boardSize
     };
 };
-_s(useFunc, "fN7XvhJ+p5oE6+Xlo0NJmXpxjC8=", false, function() {
+_s(useFunc, "dDZa8vJ99jAmZ8Ud5BgcYtOEEU0=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRouter"]
     ];
@@ -581,7 +661,7 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 
 var { g: global, __dirname, m: module, e: exports } = __turbopack_context__;
 {
-const PAGE_PATH = "/welcome";
+const PAGE_PATH = "/gameOver";
 (window.__NEXT_P = window.__NEXT_P || []).push([
     PAGE_PATH,
     ()=>{

@@ -1,4 +1,4 @@
-__turbopack_load_page_chunks__("/gameOver", [
+__turbopack_load_page_chunks__("/welcome copy", [
   "static/chunks/node_modules_next_b0817661._.js",
   "static/chunks/node_modules_react-dom_82bb97c6._.js",
   "static/chunks/node_modules_2a5cf4bb._.js",

@@ -2,9 +2,6 @@
   "/": "pages/index.js",
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
-  "/_error": "pages/_error.js",
-  "/board": "pages/board.js",
   "/game": "pages/game.js",
-  "/gameOver": "pages/gameOver.js",
-  "/gameStart": "pages/gameStart.js"
+  "/gameOver": "pages/gameOver.js"
 }

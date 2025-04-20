@@ -33,8 +33,17 @@ __turbopack_context__.s({
     "useFunc": (()=>useFunc)
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__ = __turbopack_context__.i("[externals]/react [external] (react, cjs)");
+;
 ;
 const useFunc = ()=>{
+    const len = 10;
+    const boardSize = len * len;
+    const [points, setPoints] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])(0);
+    const [food, setFood] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])();
+    const [snakeStartPosition, setSnakeStartPosition] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])(0);
+    const [snakeFinalPosition, setSnakeFinalPosition] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])(0);
+    const [direction, setDirection] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])('RIGHT');
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__["useRouter"])();
     const welcome = ()=>{
         router.push("/");
@@ -42,9 +51,80 @@ const useFunc = ()=>{
     const playGame = ()=>{
         router.push("/game");
     };
+    const gameOver = ()=>{
+        router.push("/gameOver");
+    };
+    const init = ()=>{
+        let getFoodRandomPosition = Math.floor(Math.random() * boardSize);
+        let getSnakeRandomPosition;
+        do getSnakeRandomPosition = Math.floor(Math.random() * boardSize);
+        while (getFoodRandomPosition = getSnakeRandomPosition)
+        getFoodRandomPosition = Math.floor(Math.random() * boardSize);
+        setFood(getFoodRandomPosition);
+        setSnakeStartPosition(getSnakeRandomPosition);
+        setSnakeFinalPosition(getSnakeRandomPosition - 1);
+        setPoints(0);
+    };
+    const updateNewFood = ()=>{
+        if (snakeStartPosition == food) {
+            setPoints((prev)=>prev + 1);
+            let newFood;
+            do newFood = Math.floor(Math.random() * boardSize);
+            while (newFood === snakeStartPosition)
+            setFood(newFood);
+        }
+    };
+    const arrowRight = ()=>{
+        setSnakeStartPosition((prev)=>{
+            setSnakeFinalPosition(prev);
+            return prev + 1;
+        });
+        setDirection('RIGHT');
+    };
+    const arrowLeft = ()=>{
+        setSnakeStartPosition((prev)=>{
+            setSnakeFinalPosition(prev);
+            return prev - 1;
+        });
+        setDirection('LEFT');
+    };
+    const arrowUp = ()=>{
+        setSnakeStartPosition((prev)=>{
+            setSnakeFinalPosition(prev);
+            return prev - len;
+        });
+        setDirection('UP');
+    };
+    const arrowDown = ()=>{
+        setSnakeStartPosition((prev)=>{
+            setSnakeFinalPosition(prev);
+            return prev + len;
+        });
+        setDirection('DOWN');
+    };
+    const isHitWall = (pos)=>{
+        return pos < 0 || pos >= boardSize || direction === 'LEFT' && snakeStartPosition % len === 0 || direction === 'RIGHT' && snakeStartPosition % len === len - 1;
+    };
     return {
         welcome,
-        playGame
+        playGame,
+        gameOver,
+        updateNewFood,
+        init,
+        snakeStartPosition,
+        snakeFinalPosition,
+        food,
+        setPoints,
+        setFood,
+        arrowUp,
+        arrowRight,
+        arrowLeft,
+        arrowDown,
+        isHitWall,
+        direction,
+        points,
+        len,
+        boardSize
     };
 };
 }}),
@@ -2007,8 +2087,8 @@ const unstable_getServerSideProps = (0, __TURBOPACK__imported__module__$5b$proje
 const routeModule = new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$esm$2f$server$2f$route$2d$modules$2f$pages$2f$module$2e$compiled$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__["PagesRouteModule"]({
     definition: {
         kind: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$esm$2f$server$2f$route$2d$kind$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__["RouteKind"].PAGES,
-        page: "/welcome/index",
-        pathname: "/welcome",
+        page: "/gameOver/index",
+        pathname: "/gameOver",
         // The following aren't used in production.
         bundlePath: '',
         filename: ''

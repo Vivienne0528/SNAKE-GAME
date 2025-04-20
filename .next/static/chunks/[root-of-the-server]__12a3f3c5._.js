@@ -576,20 +576,20 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
     __turbopack_context__.k.registerExports(module, globalThis.$RefreshHelpers$);
 }
 }}),
-"[project]/src/pages/welcome/index.tsx [client] (ecmascript)": ((__turbopack_context__) => {
+"[project]/src/pages/index.tsx [client] (ecmascript)": ((__turbopack_context__) => {
 "use strict";
 
 var { g: global, __dirname, k: __turbopack_refresh__, m: module } = __turbopack_context__;
 {
 __turbopack_context__.s({
-    "default": (()=>__TURBOPACK__default__export__)
+    "default": (()=>Home)
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react/jsx-dev-runtime.js [client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$useFunc$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/utils/useFunc.tsx [client] (ecmascript)");
 ;
 var _s = __turbopack_context__.k.signature();
 ;
-const Welcome = ()=>{
+function Home() {
     _s();
     const { playGame } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$useFunc$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["useFunc"])();
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -601,63 +601,36 @@ const Welcome = ()=>{
                     className: "text-6xl font-extrabold text-red-600 animate-bounce",
                     children: "WELCOME!"
                 }, void 0, false, {
-                    fileName: "[project]/src/pages/welcome/index.tsx",
-                    lineNumber: 10,
-                    columnNumber: 17
+                    fileName: "[project]/src/pages/index.tsx",
+                    lineNumber: 9,
+                    columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                     onClick: playGame,
                     className: "px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white text-xl font-semibold rounded-xl shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105",
                     children: "START GAME"
                 }, void 0, false, {
-                    fileName: "[project]/src/pages/welcome/index.tsx",
-                    lineNumber: 13,
-                    columnNumber: 17
+                    fileName: "[project]/src/pages/index.tsx",
+                    lineNumber: 12,
+                    columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
-            fileName: "[project]/src/pages/welcome/index.tsx",
-            lineNumber: 9,
-            columnNumber: 13
+            fileName: "[project]/src/pages/index.tsx",
+            lineNumber: 8,
+            columnNumber: 7
         }, this)
     }, void 0, false, {
-        fileName: "[project]/src/pages/welcome/index.tsx",
-        lineNumber: 8,
-        columnNumber: 9
+        fileName: "[project]/src/pages/index.tsx",
+        lineNumber: 7,
+        columnNumber: 5
     }, this);
-};
-_s(Welcome, "9qPZEU0YIQsth6I7rGFNhLqeJn8=", false, function() {
+}
+_s(Home, "9qPZEU0YIQsth6I7rGFNhLqeJn8=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$useFunc$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["useFunc"]
     ];
 });
-_c = Welcome;
-const __TURBOPACK__default__export__ = Welcome;
-var _c;
-__turbopack_context__.k.register(_c, "Welcome");
-if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
-    __turbopack_context__.k.registerExports(module, globalThis.$RefreshHelpers$);
-}
-}}),
-"[project]/src/pages/index.tsx [client] (ecmascript)": ((__turbopack_context__) => {
-"use strict";
-
-var { g: global, __dirname, k: __turbopack_refresh__, m: module } = __turbopack_context__;
-{
-__turbopack_context__.s({
-    "default": (()=>Home)
-});
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react/jsx-dev-runtime.js [client] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$pages$2f$welcome$2f$index$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/pages/welcome/index.tsx [client] (ecmascript)");
-;
-;
-function Home() {
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$pages$2f$welcome$2f$index$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
-        fileName: "[project]/src/pages/index.tsx",
-        lineNumber: 6,
-        columnNumber: 5
-    }, this);
-}
 _c = Home;
 var _c;
 __turbopack_context__.k.register(_c, "Home");
@@ -695,4 +668,4 @@ __turbopack_context__.r("[next]/entry/page-loader.ts { PAGE => \"[project]/src/p
 }}),
 }]);
 
-//# sourceMappingURL=%5Broot-of-the-server%5D__514df103._.js.map
+//# sourceMappingURL=%5Broot-of-the-server%5D__12a3f3c5._.js.map
