@@ -48,25 +48,24 @@ const useFunc = ()=>{
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$router$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__["useRouter"])();
     const [boardLen, setBoardLen] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])(10);
     const [foodNumbs, setFoodNumbs] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])(1);
+    const [points, setPoints] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])(0);
     const lenFromQuery = parseInt(router.query.len);
     const foodNumbsFromQuery = parseInt(router.query.foodNumbs);
+    const pointsFromQuery = parseInt(router.query.points);
     const boardSize = lenFromQuery * lenFromQuery;
-    const [points, setPoints] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])(0);
     const [food, setFood] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])();
     const [snakeStartPosition, setSnakeStartPosition] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])(0);
     const [snakeFinalPosition, setSnakeFinalPosition] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])(0);
     const [direction, setDirection] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])('RIGHT');
-    const handleStartGame = ()=>{
-        router.push(`/game?len=${boardLen}&foodNums=${foodNumbs}`);
-    };
     const welcome = ()=>{
         router.push("/");
     };
-    const playGame = ()=>{
-        router.push("/game");
+    const handleStartGame = ()=>{
+        router.push(`/game?len=${boardLen}&foodNums=${foodNumbs}`);
     };
+    // const gameOver = () => { router.push("/gameOver") }
     const gameOver = ()=>{
-        router.push("/gameOver");
+        router.push(`/gameOver?points=${points}`);
     };
     const init = ()=>{
         let getFoodRandomPosition = Math.floor(Math.random() * boardSize);
@@ -120,10 +119,10 @@ const useFunc = ()=>{
         return pos < 0 || pos >= boardSize || direction === 'LEFT' && snakeStartPosition % lenFromQuery === 0 || direction === 'RIGHT' && snakeStartPosition % lenFromQuery === lenFromQuery - 1;
     };
     return {
+        pointsFromQuery,
         boardLen,
         router,
         welcome,
-        playGame,
         gameOver,
         updateNewFood,
         init,
@@ -162,7 +161,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$useFunc$2e$t
 ;
 ;
 const GameOver = ()=>{
-    const { welcome } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$useFunc$2e$tsx__$5b$ssr$5d$__$28$ecmascript$29$__["useFunc"])();
+    const { welcome, pointsFromQuery } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$useFunc$2e$tsx__$5b$ssr$5d$__$28$ecmascript$29$__["useFunc"])();
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("section", {
         className: "h-screen w-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-blue-900",
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("section", {
@@ -182,7 +181,7 @@ const GameOver = ()=>{
                         "FINAL POINTS: ",
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("span", {
                             className: "text-blue-600 font-bold",
-                            children: "80"
+                            children: pointsFromQuery
                         }, void 0, false, {
                             fileName: "[project]/src/pages/gameOver/index.tsx",
                             lineNumber: 14,

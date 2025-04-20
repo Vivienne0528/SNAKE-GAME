@@ -2,7 +2,7 @@ import { useFunc } from "@/utils/useFunc"
 
 
 const GameOver = () => {
-    const { welcome } = useFunc()
+    const { welcome, pointsFromQuery } = useFunc()
 
     return (
         <section className="h-screen w-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-blue-900">
@@ -11,7 +11,7 @@ const GameOver = () => {
                     GAME OVER!
                 </h1>
                 <h2 className="text-3xl text-gray-800">
-                    FINAL POINTS: <span className="text-blue-600 font-bold">80</span>
+                    FINAL POINTS: <span className="text-blue-600 font-bold">{pointsFromQuery}</span>
                 </h2>
                 <button
                     onClick={welcome}

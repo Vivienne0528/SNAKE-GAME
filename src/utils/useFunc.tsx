@@ -6,23 +6,27 @@ export const useFunc = () => {
     const router = useRouter()
     const [boardLen, setBoardLen] = useState(10)
     const [foodNumbs, setFoodNumbs] = useState(1)
+    const [points, setPoints] = useState(0)
+
     const lenFromQuery = parseInt(router.query.len)
     const foodNumbsFromQuery = parseInt(router.query.foodNumbs)
+    const pointsFromQuery = parseInt(router.query.points)
+
     const boardSize = lenFromQuery * lenFromQuery
-    const [points, setPoints] = useState(0)
+
     const [food, setFood] = useState()
     const [snakeStartPosition, setSnakeStartPosition] = useState(0)
     const [snakeFinalPosition, setSnakeFinalPosition] = useState(0)
     const [direction, setDirection] = useState('RIGHT')
 
-
+    const welcome = () => { router.push("/") }
     const handleStartGame = () => {
         router.push(`/game?len=${boardLen}&foodNums=${foodNumbs}`)
     }
-
-    const welcome = () => { router.push("/") }
-    const playGame = () => { router.push("/game") }
-    const gameOver = () => { router.push("/gameOver") }
+    // const gameOver = () => { router.push("/gameOver") }
+    const gameOver = () => {
+        router.push(`/gameOver?points=${points}`)
+    }
 
 
     const init = () => {
@@ -85,7 +89,7 @@ export const useFunc = () => {
     }
 
     return {
-        boardLen, router, welcome, playGame, gameOver, updateNewFood, init, snakeStartPosition, setFoodNumbs, snakeFinalPosition, food, setPoints, setFood, arrowUp, arrowRight, arrowLeft, arrowDown, isHitWall, direction, points, lenFromQuery, boardSize, setBoardLen, foodNumbs, foodNumbsFromQuery, handleStartGame
+        pointsFromQuery, boardLen, router, welcome, gameOver, updateNewFood, init, snakeStartPosition, setFoodNumbs, snakeFinalPosition, food, setPoints, setFood, arrowUp, arrowRight, arrowLeft, arrowDown, isHitWall, direction, points, lenFromQuery, boardSize, setBoardLen, foodNumbs, foodNumbsFromQuery, handleStartGame
     }
 
 }

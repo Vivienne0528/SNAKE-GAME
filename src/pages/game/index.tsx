@@ -1,4 +1,3 @@
-import { useSearchParams } from "next/navigation"
 import Board from "../../components/board"
 import { useFunc } from "@/utils/useFunc"
 
