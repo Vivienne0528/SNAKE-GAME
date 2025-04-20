@@ -472,12 +472,15 @@ __turbopack_context__.s({
     "default": (()=>__TURBOPACK__default__export__)
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react/jsx-dev-runtime.js [client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react/index.js [client] (ecmascript)");
 ;
 var _s = __turbopack_context__.k.signature();
 ;
+;
 const Board = ({ len, boardSize })=>{
     _s();
+    const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRouter"])();
     const cells = [];
     const cellSize = 600 / len;
     const [points, setPoints] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(0);
@@ -523,7 +526,9 @@ const Board = ({ len, boardSize })=>{
         });
         setDirection('DOWN');
     };
-    const isHitWall = (prev, now)=>{};
+    const isHitWall = (pos)=>{
+        return pos < 0 || pos >= boardSize || direction === 'LEFT' && snakeStartPosition % len === 0 || direction === 'RIGHT' && snakeStartPosition % len === len - 1;
+    };
     const isGameOver = ()=>{};
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "Board.useEffect": ()=>{
@@ -563,17 +568,20 @@ const Board = ({ len, boardSize })=>{
                             arrowDown();
                             break;
                     }
-                    isGameOver();
+                    if (isHitWall(snakeStartPosition)) {
+                        clearInterval(interval);
+                        router.push("/gameOver");
+                        return;
+                    }
                 }
             }["Board.useEffect.interval"], 1000);
-            if (!isHitWall()) {
-                return ({
-                    "Board.useEffect": ()=>clearInterval(interval)
-                })["Board.useEffect"];
-            }
+            return ({
+                "Board.useEffect": ()=>clearInterval(interval)
+            })["Board.useEffect"];
         }
     }["Board.useEffect"], [
         food,
+        snakeStartPosition,
         direction
     ]);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
@@ -624,7 +632,7 @@ const Board = ({ len, boardSize })=>{
             className: `${isFood ? "bg-red-500" : ""} ${isSnake ? "bg-blue-500" : ""} border-blue-500 border-1`
         }, index, false, {
             fileName: "[project]/src/components/board/index.tsx",
-            lineNumber: 135,
+            lineNumber: 144,
             columnNumber: 13
         }, this));
     }
@@ -642,22 +650,26 @@ const Board = ({ len, boardSize })=>{
                     children: cells
                 }, void 0, false, {
                     fileName: "[project]/src/components/board/index.tsx",
-                    lineNumber: 144,
+                    lineNumber: 153,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/board/index.tsx",
-                lineNumber: 142,
+                lineNumber: 151,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/board/index.tsx",
-        lineNumber: 140,
+        lineNumber: 149,
         columnNumber: 9
     }, this);
 };
-_s(Board, "qObJ/uf9cgE5UvahqVu/FhjeEAg=");
+_s(Board, "3A8G6ecG8wW1Kf9yHWihYVUdrCQ=", false, function() {
+    return [
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRouter"]
+    ];
+});
 _c = Board;
 const __TURBOPACK__default__export__ = Board;
 var _c;

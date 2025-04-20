@@ -1,13 +1,16 @@
 //640*640->20*20
 
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const Board = ({ len, boardSize }) => {
+    const router = useRouter()
+
     const cells = []
     const cellSize = 600 / len
 
     const [points, setPoints] = useState(0)
-    const [food, setFood] = useState(0)
+    const [food, setFood] = useState()
     const [snakeStartPosition, setSnakeStartPosition] = useState(0)
     const [snakeFinalPosition, setSnakeFinalPosition] = useState(0)
     const [direction, setDirection] = useState('RIGHT')
@@ -20,6 +23,7 @@ const Board = ({ len, boardSize }) => {
         setFood(getFoodRandomPosition)
         setSnakeStartPosition(getSnakeRandomPosition)
         setSnakeFinalPosition(getSnakeRandomPosition - 1)
+        setPoints(0)
     }
 
     const arrowRight = () => {
@@ -52,12 +56,18 @@ const Board = ({ len, boardSize }) => {
         setDirection('DOWN')
     }
 
-
-    const isHitWall = (prev, now) => {
-
+    const isHitWall = (pos) => {
+        return (
+            pos < 0 ||
+            pos >= boardSize ||
+            (direction === 'LEFT' && snakeStartPosition % len === 0) ||
+            (direction === 'RIGHT' && snakeStartPosition % len === len - 1)
+        )
     }
+
     const isGameOver = () => {
 
+        router.push("/gameOver");
     }
     useEffect(() => {
         init()
@@ -88,14 +98,15 @@ const Board = ({ len, boardSize }) => {
                     arrowDown()
                     break
             }
+            if (isHitWall(snakeStartPosition)) {
+                clearInterval(interval)
+                isGameOver()
+                return
+            }
 
-            isGameOver()
         }, 1000)
-
-        if (!isHitWall()) {
-            return () => clearInterval(interval)
-        }
-    }, [food, direction])
+        return () => clearInterval(interval)
+    }, [food, snakeStartPosition, direction])
 
     useEffect(() => {
         if (typeof window !== 'undefined') {

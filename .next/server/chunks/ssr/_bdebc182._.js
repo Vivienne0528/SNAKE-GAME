@@ -59,7 +59,9 @@ const Board = ({ len, boardSize })=>{
         });
         setDirection('DOWN');
     };
-    const isHitWall = (prev, now)=>{};
+    const isHitWall = (pos)=>{
+        return pos < 0 || pos >= boardSize || direction === 'LEFT' && snakeStartPosition % len === 0 || direction === 'RIGHT' && snakeStartPosition % len === len - 1;
+    };
     const isGameOver = ()=>{};
     (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useEffect"])(()=>{
         init();
@@ -91,13 +93,17 @@ const Board = ({ len, boardSize })=>{
                     arrowDown();
                     break;
             }
+            if (isHitWall(snakeStartPosition)) {
+                clearInterval(interval);
+                alert("Game Over!");
+                return;
+            }
             isGameOver();
         }, 1000);
-        if (!isHitWall()) {
-            return ()=>clearInterval(interval);
-        }
+        return ()=>clearInterval(interval);
     }, [
         food,
+        snakeStartPosition,
         direction
     ]);
     (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useEffect"])(()=>{
@@ -120,7 +126,7 @@ const Board = ({ len, boardSize })=>{
             className: `${isFood ? "bg-red-500" : ""} ${isSnake ? "bg-blue-500" : ""} border-blue-500 border-1`
         }, index, false, {
             fileName: "[project]/src/components/board/index.tsx",
-            lineNumber: 135,
+            lineNumber: 143,
             columnNumber: 13
         }, this));
     }
@@ -138,18 +144,18 @@ const Board = ({ len, boardSize })=>{
                     children: cells
                 }, void 0, false, {
                     fileName: "[project]/src/components/board/index.tsx",
-                    lineNumber: 144,
+                    lineNumber: 152,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/board/index.tsx",
-                lineNumber: 142,
+                lineNumber: 150,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/board/index.tsx",
-        lineNumber: 140,
+        lineNumber: 148,
         columnNumber: 9
     }, this);
 };

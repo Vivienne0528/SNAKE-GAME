@@ -1,12 +1,12 @@
 globalThis.__BUILD_MANIFEST = {
   "pages": {
     "/": [
-      "static/chunks/node_modules_next_dist_f1d2d383._.js",
+      "static/chunks/node_modules_next_b0817661._.js",
       "static/chunks/node_modules_react-dom_82bb97c6._.js",
       "static/chunks/node_modules_2a5cf4bb._.js",
-      "static/chunks/[root-of-the-server]__598035cb._.js",
+      "static/chunks/[root-of-the-server]__bf60b205._.js",
       "static/chunks/src_pages_index_5771e187._.js",
-      "static/chunks/src_pages_index_a3df20e8._.js"
+      "static/chunks/src_pages_index_41c3a9e5._.js"
     ],
     "/_app": [
       "static/chunks/node_modules_next_dist_f1d2d383._.js",
@@ -24,6 +24,22 @@ globalThis.__BUILD_MANIFEST = {
       "static/chunks/[root-of-the-server]__ca38f087._.js",
       "static/chunks/src_pages__error_5771e187._.js",
       "static/chunks/src_pages__error_b465be25._.js"
+    ],
+    "/board": [
+      "static/chunks/node_modules_next_b0817661._.js",
+      "static/chunks/node_modules_react-dom_82bb97c6._.js",
+      "static/chunks/node_modules_2a5cf4bb._.js",
+      "static/chunks/[root-of-the-server]__016acc6e._.js",
+      "static/chunks/src_pages_board_index_tsx_5771e187._.js",
+      "static/chunks/src_pages_board_index_tsx_caa3205d._.js"
+    ],
+    "/gameOver": [
+      "static/chunks/node_modules_next_b0817661._.js",
+      "static/chunks/node_modules_react-dom_82bb97c6._.js",
+      "static/chunks/node_modules_2a5cf4bb._.js",
+      "static/chunks/[root-of-the-server]__a9d6927d._.js",
+      "static/chunks/src_pages_gameOver_index_tsx_5771e187._.js",
+      "static/chunks/src_pages_gameOver_index_tsx_fce4017f._.js"
     ]
   },
   "devFiles": [],

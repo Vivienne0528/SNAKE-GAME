@@ -462,6 +462,225 @@ function triggerUpdate(msg) {
     }
 }
 }}),
+"[project]/src/pages/board/index.tsx [client] (ecmascript)": ((__turbopack_context__) => {
+"use strict";
+
+var { g: global, __dirname, k: __turbopack_refresh__, m: module } = __turbopack_context__;
+{
+//640*640->20*20
+__turbopack_context__.s({
+    "default": (()=>__TURBOPACK__default__export__)
+});
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react/jsx-dev-runtime.js [client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react/index.js [client] (ecmascript)");
+;
+var _s = __turbopack_context__.k.signature();
+;
+;
+const Board = ({ len, boardSize })=>{
+    _s();
+    const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRouter"])();
+    const cells = [];
+    const cellSize = 600 / len;
+    const [points, setPoints] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(0);
+    const [food, setFood] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])();
+    const [snakeStartPosition, setSnakeStartPosition] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(0);
+    const [snakeFinalPosition, setSnakeFinalPosition] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(0);
+    const [direction, setDirection] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])('RIGHT');
+    const init = ()=>{
+        let getFoodRandomPosition = Math.floor(Math.random() * boardSize);
+        let getSnakeRandomPosition;
+        do getSnakeRandomPosition = Math.floor(Math.random() * boardSize);
+        while (getFoodRandomPosition = getSnakeRandomPosition)
+        getFoodRandomPosition = Math.floor(Math.random() * boardSize);
+        setFood(getFoodRandomPosition);
+        setSnakeStartPosition(getSnakeRandomPosition);
+        setSnakeFinalPosition(getSnakeRandomPosition - 1);
+        setPoints(0);
+    };
+    const arrowRight = ()=>{
+        setSnakeStartPosition((prev)=>{
+            setSnakeFinalPosition(prev);
+            return prev + 1;
+        });
+        setDirection('RIGHT');
+    };
+    const arrowLeft = ()=>{
+        setSnakeStartPosition((prev)=>{
+            setSnakeFinalPosition(prev);
+            return prev - 1;
+        });
+        setDirection('LEFT');
+    };
+    const arrowUp = ()=>{
+        setSnakeStartPosition((prev)=>{
+            setSnakeFinalPosition(prev);
+            return prev - len;
+        });
+        setDirection('UP');
+    };
+    const arrowDown = ()=>{
+        setSnakeStartPosition((prev)=>{
+            setSnakeFinalPosition(prev);
+            return prev + len;
+        });
+        setDirection('DOWN');
+    };
+    const isHitWall = (pos)=>{
+        return pos < 0 || pos >= boardSize || direction === 'LEFT' && snakeStartPosition % len === 0 || direction === 'RIGHT' && snakeStartPosition % len === len - 1;
+    };
+    const isGameOver = ()=>{
+        router.push("/gameOver");
+    };
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "Board.useEffect": ()=>{
+            init();
+        }
+    }["Board.useEffect"], []);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "Board.useEffect": ()=>{
+            if (snakeStartPosition == food) {
+                setPoints({
+                    "Board.useEffect": (prev)=>prev + 1
+                }["Board.useEffect"]);
+                let newFood;
+                do newFood = Math.floor(Math.random() * boardSize);
+                while (newFood === snakeStartPosition)
+                setFood(newFood);
+            }
+        }
+    }["Board.useEffect"], [
+        snakeStartPosition
+    ]);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "Board.useEffect": ()=>{
+            const interval = setInterval({
+                "Board.useEffect.interval": ()=>{
+                    switch(direction){
+                        case 'UP':
+                            arrowUp();
+                            break;
+                        case 'RIGHT':
+                            arrowRight();
+                            break;
+                        case 'LEFT':
+                            arrowLeft();
+                            break;
+                        case 'DOWN':
+                            arrowDown();
+                            break;
+                    }
+                    if (isHitWall(snakeStartPosition)) {
+                        clearInterval(interval);
+                        isGameOver();
+                        return;
+                    }
+                }
+            }["Board.useEffect.interval"], 1000);
+            return ({
+                "Board.useEffect": ()=>clearInterval(interval)
+            })["Board.useEffect"];
+        }
+    }["Board.useEffect"], [
+        food,
+        snakeStartPosition,
+        direction
+    ]);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "Board.useEffect": ()=>{
+            if ("TURBOPACK compile-time truthy", 1) {
+                const handleKeyDown = {
+                    "Board.useEffect.handleKeyDown": (event)=>{
+                        const key = event.key;
+                        switch(key){
+                            case 'ArrowUp':
+                                if (direction !== 'DOWN') arrowUp();
+                                break;
+                            case 'ArrowRight':
+                                if (direction !== 'LEFT') arrowRight();
+                                break;
+                            case 'ArrowLeft':
+                                if (direction !== 'RIGHT') arrowLeft();
+                                break;
+                            case 'ArrowDown':
+                                if (direction !== 'UP') arrowDown();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }["Board.useEffect.handleKeyDown"];
+                // 让浏览器“监听”键盘是否被按下，如果按下了，就执行 handleKeyDown 函数。
+                window.addEventListener("keydown", handleKeyDown);
+                // 当组件卸载（比如页面离开或组件被移除）时，把之前注册的监听器“取消掉”。
+                return ({
+                    "Board.useEffect": ()=>window.removeEventListener("keydown", handleKeyDown)
+                })["Board.useEffect"];
+            }
+        }
+    }["Board.useEffect"], [
+        direction
+    ]);
+    for(let index = 0; index < len * len; index++){
+        const isFood = index === food;
+        // const isSnake = snakePosition.includes(index)
+        const isSnake = snakeStartPosition === index || snakeFinalPosition === index;
+        cells.push(// <div key={index} className={`${isFood ? "bg-red-500" : ""} ${isSnake ? "bg-blue-500" : ""} border-blue-500 border-1 h-[${cellSize}px] w-[${cellSize}px]`}></div>
+        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            style: {
+                height: cellSize,
+                width: cellSize
+            },
+            className: `${isFood ? "bg-red-500" : ""} ${isSnake ? "bg-blue-500" : ""} border-blue-500 border-1`
+        }, index, false, {
+            fileName: "[project]/src/pages/board/index.tsx",
+            lineNumber: 146,
+            columnNumber: 13
+        }, this));
+    }
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+        className: "flex justify-center items-center h-screen",
+        children: [
+            points,
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+                className: "w-[640px] h-[640px] border-black border-[20px]",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+                    className: "grid",
+                    style: {
+                        gridTemplateColumns: `repeat(${len}, 1fr)`
+                    },
+                    children: cells
+                }, void 0, false, {
+                    fileName: "[project]/src/pages/board/index.tsx",
+                    lineNumber: 155,
+                    columnNumber: 17
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/src/pages/board/index.tsx",
+                lineNumber: 153,
+                columnNumber: 13
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/src/pages/board/index.tsx",
+        lineNumber: 151,
+        columnNumber: 9
+    }, this);
+};
+_s(Board, "0Q7gGlxQoImGZ647D0/sw9/x7tw=", false, function() {
+    return [
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRouter"]
+    ];
+});
+_c = Board;
+const __TURBOPACK__default__export__ = Board;
+var _c;
+__turbopack_context__.k.register(_c, "Board");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(module, globalThis.$RefreshHelpers$);
+}
+}}),
 "[project]/src/pages/index.tsx [client] (ecmascript)": ((__turbopack_context__) => {
 "use strict";
 
@@ -471,18 +690,14 @@ __turbopack_context__.s({
     "default": (()=>Home)
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react/jsx-dev-runtime.js [client] (ecmascript)");
-(()=>{
-    const e = new Error("Cannot find module '@/components/board'");
-    e.code = 'MODULE_NOT_FOUND';
-    throw e;
-})();
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$pages$2f$board$2f$index$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/pages/board/index.tsx [client] (ecmascript)");
 ;
 ;
 function Home() {
     const len = 10;
     const boardSize = len * len;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["Fragment"], {
-        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Board, {
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$pages$2f$board$2f$index$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
             len: len,
             boardSize: boardSize
         }, void 0, false, {
@@ -529,4 +744,4 @@ __turbopack_context__.r("[next]/entry/page-loader.ts { PAGE => \"[project]/src/p
 }}),
 }]);
 
-//# sourceMappingURL=%5Broot-of-the-server%5D__23b907f9._.js.map
+//# sourceMappingURL=%5Broot-of-the-server%5D__bf60b205._.js.map

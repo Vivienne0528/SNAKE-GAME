@@ -1,4 +1,4 @@
-import Board from "@/components/board";
+import Board from "@/pages/board";
 
 export default function Home() {
   const len = 10
