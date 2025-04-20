@@ -1,9 +1,9 @@
+import { useSearchParams } from "next/navigation"
 import Board from "../../components/board"
+import { useFunc } from "@/utils/useFunc"
 
 const Game = () => {
-    const len = 10
-    const boardSize = len * len
-
-    return <Board len={len} boardSize={boardSize} />
+    const { lenFromQuery, boardSize } = useFunc()
+    return <Board len={lenFromQuery} boardSize={boardSize} />
 }
 export default Game

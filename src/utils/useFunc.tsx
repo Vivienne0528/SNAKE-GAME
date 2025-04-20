@@ -1,16 +1,24 @@
-import { useRouter } from "next/navigation"
+import { useSearchParams } from "next/navigation"
+import { useRouter } from "next/router"
 import { useState } from "react"
 
 export const useFunc = () => {
-    const len = 10
-    const boardSize = len * len
+    const router = useRouter()
+    const [boardLen, setBoardLen] = useState(10)
+    const [foodNumbs, setFoodNumbs] = useState(1)
+    const lenFromQuery = parseInt(router.query.len)
+    const foodNumbsFromQuery = parseInt(router.query.foodNumbs)
+    const boardSize = lenFromQuery * lenFromQuery
     const [points, setPoints] = useState(0)
     const [food, setFood] = useState()
     const [snakeStartPosition, setSnakeStartPosition] = useState(0)
     const [snakeFinalPosition, setSnakeFinalPosition] = useState(0)
     const [direction, setDirection] = useState('RIGHT')
 
-    const router = useRouter()
+
+    const handleStartGame = () => {
+        router.push(`/game?len=${boardLen}&foodNums=${foodNumbs}`)
+    }
 
     const welcome = () => { router.push("/") }
     const playGame = () => { router.push("/game") }
@@ -55,14 +63,14 @@ export const useFunc = () => {
     const arrowUp = () => {
         setSnakeStartPosition((prev) => {
             setSnakeFinalPosition(prev)
-            return prev - len
+            return prev - lenFromQuery
         })
         setDirection('UP')
     }
     const arrowDown = () => {
         setSnakeStartPosition((prev) => {
             setSnakeFinalPosition(prev)
-            return prev + len
+            return prev + lenFromQuery
         })
         setDirection('DOWN')
     }
@@ -71,13 +79,13 @@ export const useFunc = () => {
         return (
             pos < 0 ||
             pos >= boardSize ||
-            (direction === 'LEFT' && snakeStartPosition % len === 0) ||
-            (direction === 'RIGHT' && snakeStartPosition % len === len - 1)
+            (direction === 'LEFT' && snakeStartPosition % lenFromQuery === 0) ||
+            (direction === 'RIGHT' && snakeStartPosition % lenFromQuery === lenFromQuery - 1)
         )
     }
 
     return {
-        welcome, playGame, gameOver, updateNewFood, init, snakeStartPosition, snakeFinalPosition, food, setPoints, setFood, arrowUp, arrowRight, arrowLeft, arrowDown, isHitWall, direction, points, len, boardSize
+        boardLen, router, welcome, playGame, gameOver, updateNewFood, init, snakeStartPosition, setFoodNumbs, snakeFinalPosition, food, setPoints, setFood, arrowUp, arrowRight, arrowLeft, arrowDown, isHitWall, direction, points, lenFromQuery, boardSize, setBoardLen, foodNumbs, foodNumbsFromQuery, handleStartGame
     }
 
 }

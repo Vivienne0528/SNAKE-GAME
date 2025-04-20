@@ -470,21 +470,27 @@ var { g: global, __dirname, k: __turbopack_refresh__, m: module } = __turbopack_
 __turbopack_context__.s({
     "useFunc": (()=>useFunc)
 });
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$router$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/router.js [client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react/index.js [client] (ecmascript)");
 var _s = __turbopack_context__.k.signature();
 ;
 ;
 const useFunc = ()=>{
     _s();
-    const len = 10;
-    const boardSize = len * len;
+    const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$router$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRouter"])();
+    const [boardLen, setBoardLen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(10);
+    const [foodNumbs, setFoodNumbs] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(1);
+    const lenFromQuery = parseInt(router.query.len);
+    const foodNumbsFromQuery = parseInt(router.query.foodNumbs);
+    const boardSize = lenFromQuery * lenFromQuery;
     const [points, setPoints] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(0);
     const [food, setFood] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])();
     const [snakeStartPosition, setSnakeStartPosition] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(0);
     const [snakeFinalPosition, setSnakeFinalPosition] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(0);
     const [direction, setDirection] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])('RIGHT');
-    const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRouter"])();
+    const handleStartGame = ()=>{
+        router.push(`/game?len=${boardLen}&foodNums=${foodNumbs}`);
+    };
     const welcome = ()=>{
         router.push("/");
     };
@@ -531,27 +537,30 @@ const useFunc = ()=>{
     const arrowUp = ()=>{
         setSnakeStartPosition((prev)=>{
             setSnakeFinalPosition(prev);
-            return prev - len;
+            return prev - lenFromQuery;
         });
         setDirection('UP');
     };
     const arrowDown = ()=>{
         setSnakeStartPosition((prev)=>{
             setSnakeFinalPosition(prev);
-            return prev + len;
+            return prev + lenFromQuery;
         });
         setDirection('DOWN');
     };
     const isHitWall = (pos)=>{
-        return pos < 0 || pos >= boardSize || direction === 'LEFT' && snakeStartPosition % len === 0 || direction === 'RIGHT' && snakeStartPosition % len === len - 1;
+        return pos < 0 || pos >= boardSize || direction === 'LEFT' && snakeStartPosition % lenFromQuery === 0 || direction === 'RIGHT' && snakeStartPosition % lenFromQuery === lenFromQuery - 1;
     };
     return {
+        boardLen,
+        router,
         welcome,
         playGame,
         gameOver,
         updateNewFood,
         init,
         snakeStartPosition,
+        setFoodNumbs,
         snakeFinalPosition,
         food,
         setPoints,
@@ -563,13 +572,17 @@ const useFunc = ()=>{
         isHitWall,
         direction,
         points,
-        len,
-        boardSize
+        lenFromQuery,
+        boardSize,
+        setBoardLen,
+        foodNumbs,
+        foodNumbsFromQuery,
+        handleStartGame
     };
 };
-_s(useFunc, "dDZa8vJ99jAmZ8Ud5BgcYtOEEU0=", false, function() {
+_s(useFunc, "rXVNNFgNwR7hhf1wuuCpnBpeEG0=", false, function() {
     return [
-        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRouter"]
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$router$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRouter"]
     ];
 });
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
@@ -581,6 +594,7 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 
 var { g: global, __dirname, k: __turbopack_refresh__, m: module } = __turbopack_context__;
 {
+// src/pages/welcome/index.tsx
 __turbopack_context__.s({
     "default": (()=>__TURBOPACK__default__export__)
 });
@@ -591,42 +605,104 @@ var _s = __turbopack_context__.k.signature();
 ;
 const Welcome = ()=>{
     _s();
-    const { playGame } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$useFunc$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["useFunc"])();
+    const { boardLen, setBoardLen, foodNumbs, setFoodNumbs, handleStartGame } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$useFunc$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["useFunc"])();
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
         className: "h-screen w-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-blue-900",
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
             className: "w-[640px] h-[640px] bg-white rounded-2xl shadow-2xl flex flex-col items-center justify-center gap-10 animate-fade-in",
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                    className: "text-6xl font-extrabold text-red-600 animate-bounce",
-                    children: "WELCOME!"
+                    className: "text-4xl font-bold",
+                    children: "Welcome to Snake Game 🐍"
                 }, void 0, false, {
                     fileName: "[project]/src/pages/welcome/index.tsx",
-                    lineNumber: 10,
+                    lineNumber: 11,
                     columnNumber: 17
                 }, this),
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                    onClick: playGame,
-                    className: "px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white text-xl font-semibold rounded-xl shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105",
-                    children: "START GAME"
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                    className: "text-2xl font-semibold mb-4",
+                    children: "Choose your board size:"
                 }, void 0, false, {
                     fileName: "[project]/src/pages/welcome/index.tsx",
                     lineNumber: 13,
+                    columnNumber: 17
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "flex gap-4",
+                    children: [
+                        10,
+                        20,
+                        30
+                    ].map((size)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                            onClick: ()=>setBoardLen(size),
+                            className: `px-6 py-3 font-bold text-xl rounded-xl shadow-lg transition-all 
+                            ${boardLen === size ? "bg-purple-700 text-white scale-105" : "bg-white text-purple-700 hover:scale-105"}`,
+                            children: [
+                                size,
+                                " x ",
+                                size
+                            ]
+                        }, size, true, {
+                            fileName: "[project]/src/pages/welcome/index.tsx",
+                            lineNumber: 16,
+                            columnNumber: 25
+                        }, this))
+                }, void 0, false, {
+                    fileName: "[project]/src/pages/welcome/index.tsx",
+                    lineNumber: 14,
+                    columnNumber: 17
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                    className: "text-2xl font-semibold mb-4",
+                    children: "Choose your food number:"
+                }, void 0, false, {
+                    fileName: "[project]/src/pages/welcome/index.tsx",
+                    lineNumber: 27,
+                    columnNumber: 17
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "flex gap-4",
+                    children: [
+                        1,
+                        2,
+                        3
+                    ].map((num)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                            onClick: ()=>setFoodNumbs(num),
+                            className: `px-6 py-3 font-bold text-xl rounded-xl shadow-lg transition-all 
+                            ${foodNumbs === num ? "bg-purple-700 text-white scale-105" : "bg-white text-purple-700 hover:scale-105"}`,
+                            children: num
+                        }, num, false, {
+                            fileName: "[project]/src/pages/welcome/index.tsx",
+                            lineNumber: 30,
+                            columnNumber: 25
+                        }, this))
+                }, void 0, false, {
+                    fileName: "[project]/src/pages/welcome/index.tsx",
+                    lineNumber: 28,
+                    columnNumber: 17
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                    onClick: handleStartGame,
+                    className: "px-6 py-3 bg-purple-700 text-white font-bold text-xl rounded-xl shadow-lg hover:scale-105 transition-all",
+                    children: "START GAME"
+                }, void 0, false, {
+                    fileName: "[project]/src/pages/welcome/index.tsx",
+                    lineNumber: 41,
                     columnNumber: 17
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/pages/welcome/index.tsx",
-            lineNumber: 9,
+            lineNumber: 10,
             columnNumber: 13
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/pages/welcome/index.tsx",
-        lineNumber: 8,
+        lineNumber: 9,
         columnNumber: 9
     }, this);
 };
-_s(Welcome, "9qPZEU0YIQsth6I7rGFNhLqeJn8=", false, function() {
+_s(Welcome, "xkP8ev9tXJ8LJ/6tb0wBlfwLscY=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$useFunc$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["useFunc"]
     ];
