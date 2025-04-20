@@ -1,0 +1,8 @@
+__turbopack_load_page_chunks__("/welcome", [
+  "static/chunks/node_modules_next_b0817661._.js",
+  "static/chunks/node_modules_react-dom_82bb97c6._.js",
+  "static/chunks/node_modules_2a5cf4bb._.js",
+  "static/chunks/[root-of-the-server]__372de756._.js",
+  "static/chunks/src_pages_gameOver_index_tsx_5771e187._.js",
+  "static/chunks/src_pages_gameOver_index_tsx_454f7cf3._.js"
+])

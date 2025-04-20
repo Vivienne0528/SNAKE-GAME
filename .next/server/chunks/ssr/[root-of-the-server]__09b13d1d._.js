@@ -44,7 +44,7 @@ const Board = ({ len, boardSize })=>{
     const cells = [];
     const cellSize = 600 / len;
     const [points, setPoints] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])(0);
-    const [food, setFood] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])(0);
+    const [food, setFood] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])();
     const [snakeStartPosition, setSnakeStartPosition] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])(0);
     const [snakeFinalPosition, setSnakeFinalPosition] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])(0);
     const [direction, setDirection] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])('RIGHT');
@@ -57,6 +57,7 @@ const Board = ({ len, boardSize })=>{
         setFood(getFoodRandomPosition);
         setSnakeStartPosition(getSnakeRandomPosition);
         setSnakeFinalPosition(getSnakeRandomPosition - 1);
+        setPoints(0);
     };
     const arrowRight = ()=>{
         setSnakeStartPosition((prev)=>{
@@ -89,7 +90,9 @@ const Board = ({ len, boardSize })=>{
     const isHitWall = (pos)=>{
         return pos < 0 || pos >= boardSize || direction === 'LEFT' && snakeStartPosition % len === 0 || direction === 'RIGHT' && snakeStartPosition % len === len - 1;
     };
-    const isGameOver = ()=>{};
+    const isGameOver = ()=>{
+        router.push("/gameOver");
+    };
     (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useEffect"])(()=>{
         init();
     }, []);
@@ -122,7 +125,7 @@ const Board = ({ len, boardSize })=>{
             }
             if (isHitWall(snakeStartPosition)) {
                 clearInterval(interval);
-                router.push("/gameOver");
+                isGameOver();
                 return;
             }
         }, 1000);
@@ -152,7 +155,7 @@ const Board = ({ len, boardSize })=>{
             className: `${isFood ? "bg-red-500" : ""} ${isSnake ? "bg-blue-500" : ""} border-blue-500 border-1`
         }, index, false, {
             fileName: "[project]/src/pages/board/index.tsx",
-            lineNumber: 144,
+            lineNumber: 146,
             columnNumber: 13
         }, this));
     }
@@ -170,18 +173,18 @@ const Board = ({ len, boardSize })=>{
                     children: cells
                 }, void 0, false, {
                     fileName: "[project]/src/pages/board/index.tsx",
-                    lineNumber: 153,
+                    lineNumber: 155,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/pages/board/index.tsx",
-                lineNumber: 151,
+                lineNumber: 153,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/pages/board/index.tsx",
-        lineNumber: 149,
+        lineNumber: 151,
         columnNumber: 9
     }, this);
 };

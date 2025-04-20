@@ -4,5 +4,7 @@
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
   "/board": "pages/board.js",
-  "/gameOver": "pages/gameOver.js"
+  "/game": "pages/game.js",
+  "/gameOver": "pages/gameOver.js",
+  "/gameStart": "pages/gameStart.js"
 }
