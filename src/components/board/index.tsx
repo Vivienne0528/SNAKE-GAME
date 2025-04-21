@@ -3,7 +3,7 @@
 import { useFunc } from "@/utils/useFunc";
 import { useEffect } from "react";
 
-const Board = ({ len, boardSize }) => {
+const Board = ({ len }) => {
     const { time, setTime, isGameOver, handleKeyDown, moveSnake, snakeBody, eatFood, init, foods, direction, points } = useFunc()
 
     const cells = []
@@ -22,6 +22,8 @@ const Board = ({ len, boardSize }) => {
             setTime(100)
         } else if (points > 5) {
             setTime(500)
+        } else {
+            setTime(1000)
         }
     }, [points])
 

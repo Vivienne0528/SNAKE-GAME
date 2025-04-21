@@ -77,7 +77,6 @@ const useFunc = ()=>{
             initialHead,
             initialTail
         ];
-        // 生成多个食物
         const newFoods = [];
         while(newFoods.length < foodNumbsFromQuery){
             let pos = Math.floor(Math.random() * boardSize);
@@ -245,7 +244,6 @@ const useFunc = ()=>{
         direction,
         points,
         lenFromQuery,
-        boardSize,
         welcome,
         pointsFromQuery
     };

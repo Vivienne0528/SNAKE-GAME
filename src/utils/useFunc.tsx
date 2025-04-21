@@ -39,7 +39,7 @@ export const useFunc = () => {
         const initialHead = getSnakeRandomPosition
         const initialTail = initialHead - 1
         const initialBody = [initialHead, initialTail]
-        // 生成多个食物
+
         const newFoods = []
         while (newFoods.length < foodNumbsFromQuery) {
             let pos = Math.floor(Math.random() * boardSize)
@@ -175,7 +175,7 @@ export const useFunc = () => {
     }
 
     return {
-        time, setTime, boardLen, setBoardLen, foodNumbs, setFoodNumbs, handleStartGame, isGameOver, handleKeyDown, moveSnake, snakeBody, eatFood, init, foods, direction, points, lenFromQuery, boardSize, welcome, pointsFromQuery
+        time, setTime, boardLen, setBoardLen, foodNumbs, setFoodNumbs, handleStartGame, isGameOver, handleKeyDown, moveSnake, snakeBody, eatFood, init, foods, direction, points, lenFromQuery, welcome, pointsFromQuery
     }
 
 }

@@ -77,7 +77,6 @@ const useFunc = ()=>{
             initialHead,
             initialTail
         ];
-        // 生成多个食物
         const newFoods = [];
         while(newFoods.length < foodNumbsFromQuery){
             let pos = Math.floor(Math.random() * boardSize);
@@ -245,7 +244,6 @@ const useFunc = ()=>{
         direction,
         points,
         lenFromQuery,
-        boardSize,
         welcome,
         pointsFromQuery
     };
@@ -266,7 +264,7 @@ var __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$
 ;
 ;
 ;
-const Board = ({ len, boardSize })=>{
+const Board = ({ len })=>{
     const { time, setTime, isGameOver, handleKeyDown, moveSnake, snakeBody, eatFood, init, foods, direction, points } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$useFunc$2e$tsx__$5b$ssr$5d$__$28$ecmascript$29$__["useFunc"])();
     const cells = [];
     const cellSize = 600 / len;
@@ -283,6 +281,8 @@ const Board = ({ len, boardSize })=>{
             setTime(100);
         } else if (points > 5) {
             setTime(500);
+        } else {
+            setTime(1000);
         }
     }, [
         points
@@ -316,7 +316,7 @@ const Board = ({ len, boardSize })=>{
             className: `${isFood ? "bg-red-500" : ""} ${isSnake ? "bg-blue-500" : ""} border-blue-500 border-1`
         }, index, false, {
             fileName: "[project]/src/components/board/index.tsx",
-            lineNumber: 52,
+            lineNumber: 54,
             columnNumber: 13
         }, this));
     }
@@ -334,18 +334,18 @@ const Board = ({ len, boardSize })=>{
                     children: cells
                 }, void 0, false, {
                     fileName: "[project]/src/components/board/index.tsx",
-                    lineNumber: 61,
+                    lineNumber: 63,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/board/index.tsx",
-                lineNumber: 59,
+                lineNumber: 61,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/board/index.tsx",
-        lineNumber: 57,
+        lineNumber: 59,
         columnNumber: 9
     }, this);
 };
@@ -366,10 +366,9 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$useFunc$2e$t
 ;
 ;
 const Game = ()=>{
-    const { lenFromQuery, boardSize } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$useFunc$2e$tsx__$5b$ssr$5d$__$28$ecmascript$29$__["useFunc"])();
+    const { lenFromQuery } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$useFunc$2e$tsx__$5b$ssr$5d$__$28$ecmascript$29$__["useFunc"])();
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$board$2f$index$2e$tsx__$5b$ssr$5d$__$28$ecmascript$29$__["default"], {
-        len: lenFromQuery,
-        boardSize: boardSize
+        len: lenFromQuery
     }, void 0, false, {
         fileName: "[project]/src/pages/game/index.tsx",
         lineNumber: 6,
