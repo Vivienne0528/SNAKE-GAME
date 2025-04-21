@@ -486,8 +486,6 @@ const useFunc = ()=>{
     const pointsFromQuery = parseInt(router.query.points);
     const boardSize = lenFromQuery * lenFromQuery;
     const [food, setFood] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])();
-    const [snakeStartPosition, setSnakeStartPosition] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(0);
-    const [snakeFinalPosition, setSnakeFinalPosition] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(0);
     const [snakeBody, setSnakeBody] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])([]);
     const [direction, setDirection] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])('RIGHT');
     const welcome = ()=>{
@@ -496,7 +494,6 @@ const useFunc = ()=>{
     const handleStartGame = ()=>{
         router.push(`/game?len=${boardLen}&foodNumbs=${foodNumbs}`);
     };
-    // const gameOver = () => { router.push("/gameOver") }
     const gameOver = ()=>{
         router.push(`/gameOver?points=${points}`);
     };
@@ -505,88 +502,165 @@ const useFunc = ()=>{
         let getSnakeRandomPosition;
         do getSnakeRandomPosition = Math.floor(Math.random() * boardSize);
         while (getFoodRandomPosition === getSnakeRandomPosition)
+        const initialHead = getSnakeRandomPosition;
+        const initialTail = initialHead - 1;
+        const initialBody = [
+            initialHead,
+            initialTail
+        ];
         setFood(getFoodRandomPosition);
-        setSnakeStartPosition(getSnakeRandomPosition);
-        setSnakeFinalPosition(getSnakeRandomPosition - 1);
+        setSnakeBody(initialBody);
         setPoints(0);
     };
-    const updateNewFood = ()=>{
-        if (snakeStartPosition === food) {
+    const updateNewFoodNewSnake = ()=>{
+        if (snakeBody.includes(food)) {
             setPoints((prev)=>prev + 1);
-            // setSnakeBody(prev => prev.push(snakeStartPosition))
-            setSnakeBody((prev)=>[
-                    ...prev,
-                    snakeStartPosition
-                ]);
-            setSnakeStartPosition(food);
+            switch(direction){
+                case 'UP':
+                    setSnakeBody((prev)=>[
+                            ...prev,
+                            food - lenFromQuery
+                        ]);
+                    break;
+                case 'RIGHT':
+                    setSnakeBody((prev)=>[
+                            ...prev,
+                            food + 1
+                        ]);
+                    break;
+                case 'LEFT':
+                    setSnakeBody((prev)=>[
+                            ...prev,
+                            food - 1
+                        ]);
+                    break;
+                case 'DOWN':
+                    setSnakeBody((prev)=>[
+                            ...prev,
+                            food + lenFromQuery
+                        ]);
+                    break;
+            }
             let newFood;
             do newFood = Math.floor(Math.random() * boardSize);
-            while (newFood === snakeStartPosition)
+            while (snakeBody.includes(newFood))
             setFood(newFood);
         }
     };
     const arrowRight = ()=>{
-        setSnakeStartPosition((prev)=>{
-            setSnakeFinalPosition(prev);
-            return prev + 1;
+        setSnakeBody((prev)=>{
+            const newHead = prev[0] + 1;
+            const newBody = [
+                newHead,
+                ...prev.slice(0, -1)
+            ];
+            return newBody;
         });
         setDirection('RIGHT');
     };
     const arrowLeft = ()=>{
-        setSnakeStartPosition((prev)=>{
-            setSnakeFinalPosition(prev);
-            return prev - 1;
+        setSnakeBody((prev)=>{
+            const newHead = prev[0] - 1;
+            const newBody = [
+                newHead,
+                ...prev.slice(0, -1)
+            ];
+            return newBody;
         });
         setDirection('LEFT');
     };
     const arrowUp = ()=>{
-        setSnakeStartPosition((prev)=>{
-            setSnakeFinalPosition(prev);
-            return prev - lenFromQuery;
+        setSnakeBody((prev)=>{
+            const newHead = prev[0] - lenFromQuery;
+            const newBody = [
+                newHead,
+                ...prev.slice(0, -1)
+            ];
+            return newBody;
         });
         setDirection('UP');
     };
     const arrowDown = ()=>{
-        setSnakeStartPosition((prev)=>{
-            setSnakeFinalPosition(prev);
-            return prev + lenFromQuery;
+        setSnakeBody((prev)=>{
+            const newHead = prev[0] + lenFromQuery;
+            const newBody = [
+                newHead,
+                ...prev.slice(0, -1)
+            ];
+            return newBody;
         });
         setDirection('DOWN');
     };
-    const isHitWall = (pos)=>{
-        return pos < 0 || pos >= boardSize || direction === 'LEFT' && snakeStartPosition % lenFromQuery === 0 || direction === 'RIGHT' && snakeStartPosition % lenFromQuery === lenFromQuery - 1;
+    const moveSnake = ()=>{
+        switch(direction){
+            case 'UP':
+                arrowUp();
+                break;
+            case 'RIGHT':
+                arrowRight();
+                break;
+            case 'LEFT':
+                arrowLeft();
+                break;
+            case 'DOWN':
+                arrowDown();
+                break;
+        }
+    };
+    const handleKeyDown = (event)=>{
+        const key = event.key;
+        switch(key){
+            case 'ArrowUp':
+                if (direction !== 'DOWN') arrowUp();
+                break;
+            case 'ArrowRight':
+                if (direction !== 'LEFT') arrowRight();
+                break;
+            case 'ArrowLeft':
+                if (direction !== 'RIGHT') arrowLeft();
+                break;
+            case 'ArrowDown':
+                if (direction !== 'UP') arrowDown();
+                break;
+            default:
+                break;
+        }
+    };
+    const isHitWall = (snake)=>{
+        return snake.find((pos)=>pos < 0) || snake.find((pos)=>pos >= boardSize) || direction === 'LEFT' && snake[0] % lenFromQuery === 0 || direction === 'RIGHT' && snake[0] % lenFromQuery === lenFromQuery - 1;
+    };
+    const isHitSnake = ()=>{
+        return snakeBody.slice(1).includes(snakeBody[0]);
+    };
+    const isGameOver = ()=>{
+        if (isHitWall(snakeBody) || isHitSnake()) {
+            // clearInterval(interval)
+            gameOver();
+            return;
+        }
     };
     return {
-        snakeBody,
-        pointsFromQuery,
         boardLen,
-        router,
-        welcome,
-        gameOver,
-        updateNewFood,
-        init,
-        snakeStartPosition,
+        setBoardLen,
+        foodNumbs,
         setFoodNumbs,
-        snakeFinalPosition,
+        handleStartGame,
+        isGameOver,
+        handleKeyDown,
+        moveSnake,
+        snakeBody,
+        updateNewFoodNewSnake,
+        init,
         food,
-        setPoints,
-        setFood,
-        arrowUp,
-        arrowRight,
-        arrowLeft,
-        arrowDown,
-        isHitWall,
         direction,
         points,
         lenFromQuery,
         boardSize,
-        setBoardLen,
-        foodNumbs,
-        foodNumbsFromQuery,
-        handleStartGame
+        welcome,
+        pointsFromQuery
     };
 };
-_s(useFunc, "UnILNcA+VtHh5Qhyy+veLWbe47w=", false, function() {
+_s(useFunc, "2kHJsWhNPpyjXNbpVmtzsRlg4TU=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$router$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRouter"]
     ];
@@ -613,7 +687,7 @@ var _s = __turbopack_context__.k.signature();
 ;
 const Board = ({ len, boardSize })=>{
     _s();
-    const { snakeBody, updateNewFood, gameOver, init, snakeStartPosition, snakeFinalPosition, food, arrowUp, arrowRight, arrowLeft, arrowDown, isHitWall, direction, points } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$useFunc$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["useFunc"])();
+    const { isGameOver, handleKeyDown, moveSnake, snakeBody, updateNewFoodNewSnake, init, food, direction, points } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$useFunc$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["useFunc"])();
     const cells = [];
     const cellSize = 600 / len;
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
@@ -623,34 +697,17 @@ const Board = ({ len, boardSize })=>{
     }["Board.useEffect"], []);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "Board.useEffect": ()=>{
-            updateNewFood();
+            updateNewFoodNewSnake();
         }
     }["Board.useEffect"], [
-        snakeStartPosition
+        snakeBody
     ]);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "Board.useEffect": ()=>{
             const interval = setInterval({
                 "Board.useEffect.interval": ()=>{
-                    switch(direction){
-                        case 'UP':
-                            arrowUp();
-                            break;
-                        case 'RIGHT':
-                            arrowRight();
-                            break;
-                        case 'LEFT':
-                            arrowLeft();
-                            break;
-                        case 'DOWN':
-                            arrowDown();
-                            break;
-                    }
-                    if (isHitWall(snakeStartPosition)) {
-                        clearInterval(interval);
-                        gameOver();
-                        return;
-                    }
+                    moveSnake();
+                    isGameOver();
                 }
             }["Board.useEffect.interval"], 1000);
             return ({
@@ -659,33 +716,12 @@ const Board = ({ len, boardSize })=>{
         }
     }["Board.useEffect"], [
         food,
-        snakeStartPosition,
-        direction
+        snakeBody,
+        moveSnake
     ]);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "Board.useEffect": ()=>{
             if ("TURBOPACK compile-time truthy", 1) {
-                const handleKeyDown = {
-                    "Board.useEffect.handleKeyDown": (event)=>{
-                        const key = event.key;
-                        switch(key){
-                            case 'ArrowUp':
-                                if (direction !== 'DOWN') arrowUp();
-                                break;
-                            case 'ArrowRight':
-                                if (direction !== 'LEFT') arrowRight();
-                                break;
-                            case 'ArrowLeft':
-                                if (direction !== 'RIGHT') arrowLeft();
-                                break;
-                            case 'ArrowDown':
-                                if (direction !== 'UP') arrowDown();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }["Board.useEffect.handleKeyDown"];
                 // 让浏览器“监听”键盘是否被按下，如果按下了，就执行 handleKeyDown 函数。
                 window.addEventListener("keydown", handleKeyDown);
                 // 当组件卸载（比如页面离开或组件被移除）时，把之前注册的监听器“取消掉”。
@@ -699,8 +735,7 @@ const Board = ({ len, boardSize })=>{
     ]);
     for(let index = 0; index < len * len; index++){
         const isFood = index === food;
-        // const isSnake = snakePosition.includes(index)
-        const isSnake = snakeStartPosition === index || snakeFinalPosition === index || snakeBody.includes(index);
+        const isSnake = snakeBody.includes(index);
         cells.push(// <div key={index} className={`${isFood ? "bg-red-500" : ""} ${isSnake ? "bg-blue-500" : ""} border-blue-500 border-1 h-[${cellSize}px] w-[${cellSize}px]`}></div>
         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
             style: {
@@ -710,7 +745,7 @@ const Board = ({ len, boardSize })=>{
             className: `${isFood ? "bg-red-500" : ""} ${isSnake ? "bg-blue-500" : ""} border-blue-500 border-1`
         }, index, false, {
             fileName: "[project]/src/components/board/index.tsx",
-            lineNumber: 81,
+            lineNumber: 45,
             columnNumber: 13
         }, this));
     }
@@ -728,22 +763,22 @@ const Board = ({ len, boardSize })=>{
                     children: cells
                 }, void 0, false, {
                     fileName: "[project]/src/components/board/index.tsx",
-                    lineNumber: 90,
+                    lineNumber: 54,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/board/index.tsx",
-                lineNumber: 88,
+                lineNumber: 52,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/board/index.tsx",
-        lineNumber: 86,
+        lineNumber: 50,
         columnNumber: 9
     }, this);
 };
-_s(Board, "FHJemPPAK/yMnYQEYZrMqZFvOB8=", false, function() {
+_s(Board, "N4dZ6hKPkDMn/Fa4qjY+eWvLdOg=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$useFunc$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["useFunc"]
     ];

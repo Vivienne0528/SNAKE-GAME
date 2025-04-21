@@ -4,6 +4,7 @@ import { useState } from "react"
 export const useFunc = () => {
 
     const router = useRouter()
+
     const [boardLen, setBoardLen] = useState(10)
     const [foodNumbs, setFoodNumbs] = useState(1)
     const [points, setPoints] = useState(0)
@@ -15,8 +16,6 @@ export const useFunc = () => {
     const boardSize = lenFromQuery * lenFromQuery
 
     const [food, setFood] = useState()
-    const [snakeStartPosition, setSnakeStartPosition] = useState(0)
-    const [snakeFinalPosition, setSnakeFinalPosition] = useState(0)
     const [snakeBody, setSnakeBody] = useState([])
 
     const [direction, setDirection] = useState('RIGHT')
@@ -25,7 +24,6 @@ export const useFunc = () => {
     const handleStartGame = () => {
         router.push(`/game?len=${boardLen}&foodNumbs=${foodNumbs}`)
     }
-    // const gameOver = () => { router.push("/gameOver") }
     const gameOver = () => {
         router.push(`/gameOver?points=${points}`)
     }
@@ -36,66 +34,130 @@ export const useFunc = () => {
         let getSnakeRandomPosition
         do (getSnakeRandomPosition = Math.floor(Math.random() * boardSize))
         while (getFoodRandomPosition === getSnakeRandomPosition)
+
+        const initialHead = getSnakeRandomPosition
+        const initialTail = initialHead - 1
+        const initialBody = [initialHead, initialTail]
+
         setFood(getFoodRandomPosition)
-        setSnakeStartPosition(getSnakeRandomPosition)
-        setSnakeFinalPosition(getSnakeRandomPosition - 1)
+        setSnakeBody(initialBody)
         setPoints(0)
     }
 
-    const updateNewFood = () => {
-        if (snakeStartPosition === food) {
+    const updateNewFoodNewSnake = () => {
+        if (snakeBody.includes(food)) {
             setPoints(prev => prev + 1)
-            // setSnakeBody(prev => prev.push(snakeStartPosition))
-            setSnakeBody(prev => [...prev, snakeStartPosition])
-            setSnakeStartPosition(food)
+            switch (direction) {
+                case 'UP':
+                    setSnakeBody(prev => [...prev, food - lenFromQuery])
+                    break
+                case 'RIGHT':
+                    setSnakeBody(prev => [...prev, food + 1])
+                    break
+                case 'LEFT':
+                    setSnakeBody(prev => [...prev, food - 1])
+                    break
+                case 'DOWN':
+                    setSnakeBody(prev => [...prev, food + lenFromQuery])
+                    break
+            }
+
             let newFood
             do (newFood = Math.floor(Math.random() * boardSize))
-            while (newFood === snakeStartPosition) setFood(newFood)
+            while (snakeBody.includes(newFood))
+            setFood(newFood)
         }
     }
 
     const arrowRight = () => {
-        setSnakeStartPosition((prev) => {
-            setSnakeFinalPosition(prev)
-
-            return prev + 1
+        setSnakeBody(prev => {
+            const newHead = prev[0] + 1
+            const newBody = [newHead, ...prev.slice(0, -1)]
+            return newBody
         })
         setDirection('RIGHT')
 
     }
     const arrowLeft = () => {
-        setSnakeStartPosition((prev) => {
-            setSnakeFinalPosition(prev)
-            return prev - 1
+        setSnakeBody(prev => {
+            const newHead = prev[0] - 1
+            const newBody = [newHead, ...prev.slice(0, -1)]
+            return newBody
         })
         setDirection('LEFT')
     }
     const arrowUp = () => {
-        setSnakeStartPosition((prev) => {
-            setSnakeFinalPosition(prev)
-            return prev - lenFromQuery
+        setSnakeBody(prev => {
+            const newHead = prev[0] - lenFromQuery
+            const newBody = [newHead, ...prev.slice(0, -1)]
+            return newBody
         })
         setDirection('UP')
     }
     const arrowDown = () => {
-        setSnakeStartPosition((prev) => {
-            setSnakeFinalPosition(prev)
-            return prev + lenFromQuery
+        setSnakeBody(prev => {
+            const newHead = prev[0] + lenFromQuery
+            const newBody = [newHead, ...prev.slice(0, -1)]
+            return newBody
         })
         setDirection('DOWN')
     }
-
-    const isHitWall = (pos) => {
+    const moveSnake = () => {
+        switch (direction) {
+            case 'UP':
+                arrowUp()
+                break
+            case 'RIGHT':
+                arrowRight()
+                break
+            case 'LEFT':
+                arrowLeft()
+                break
+            case 'DOWN':
+                arrowDown()
+                break
+        }
+    }
+    const handleKeyDown = (event) => {
+        const key = event.key;
+        switch (key) {
+            case 'ArrowUp':
+                if (direction !== 'DOWN') arrowUp()
+                break
+            case 'ArrowRight':
+                if (direction !== 'LEFT') arrowRight()
+                break
+            case 'ArrowLeft':
+                if (direction !== 'RIGHT') arrowLeft()
+                break
+            case 'ArrowDown':
+                if (direction !== 'UP') arrowDown()
+                break
+            default:
+                break
+        }
+    }
+    const isHitWall = (snake) => {
         return (
-            pos < 0 ||
-            pos >= boardSize ||
-            (direction === 'LEFT' && snakeStartPosition % lenFromQuery === 0) ||
-            (direction === 'RIGHT' && snakeStartPosition % lenFromQuery === lenFromQuery - 1)
+            snake.find(pos => pos < 0) ||
+            snake.find(pos => pos >= boardSize) ||
+            (direction === 'LEFT' && snake[0] % lenFromQuery === 0) ||
+            (direction === 'RIGHT' && snake[0] % lenFromQuery === lenFromQuery - 1)
         )
+    }
+    const isHitSnake = () => {
+        return snakeBody.slice(1).includes(snakeBody[0])
+    }
+    const isGameOver = () => {
+        if (isHitWall(snakeBody) || isHitSnake()) {
+            // clearInterval(interval)
+            gameOver()
+            return
+        }
     }
 
     return {
-        snakeBody, pointsFromQuery, boardLen, router, welcome, gameOver, updateNewFood, init, snakeStartPosition, setFoodNumbs, snakeFinalPosition, food, setPoints, setFood, arrowUp, arrowRight, arrowLeft, arrowDown, isHitWall, direction, points, lenFromQuery, boardSize, setBoardLen, foodNumbs, foodNumbsFromQuery, handleStartGame
+        boardLen, setBoardLen, foodNumbs, setFoodNumbs, handleStartGame, isGameOver, handleKeyDown, moveSnake, snakeBody, updateNewFoodNewSnake, init, food, direction, points, lenFromQuery, boardSize, welcome, pointsFromQuery
     }
 
 }
