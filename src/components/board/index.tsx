@@ -4,7 +4,7 @@ import { useFunc } from "@/utils/useFunc";
 import { useEffect } from "react";
 
 const Board = ({ len, boardSize }) => {
-    const { isGameOver, handleKeyDown, moveSnake, snakeBody, updateNewFoodNewSnake, init, food, direction, points } = useFunc()
+    const { time, setTime, isGameOver, handleKeyDown, moveSnake, snakeBody, eatFood, init, foods, direction, points } = useFunc()
 
     const cells = []
     const cellSize = 600 / len
@@ -14,18 +14,25 @@ const Board = ({ len, boardSize }) => {
     }, [])
 
     useEffect(() => {
-        updateNewFoodNewSnake()
+        eatFood()
     }, [snakeBody])
+
+    useEffect(() => {
+        if (points >= 10) {
+            setTime(100)
+        } else if (points > 5) {
+            setTime(500)
+        }
+    }, [points])
 
     useEffect(() => {
         const interval = setInterval(() => {
             moveSnake()
             isGameOver()
-        }, 1000)
-
+        }, time)
         return () => clearInterval(interval)
 
-    }, [food, snakeBody, moveSnake])
+    }, [isGameOver, moveSnake])
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -38,7 +45,7 @@ const Board = ({ len, boardSize }) => {
 
 
     for (let index = 0; index < len * len; index++) {
-        const isFood = index === food;
+        const isFood = foods.includes(index)
         const isSnake = snakeBody.includes(index)
         cells.push(
             // <div key={index} className={`${isFood ? "bg-red-500" : ""} ${isSnake ? "bg-blue-500" : ""} border-blue-500 border-1 h-[${cellSize}px] w-[${cellSize}px]`}></div>

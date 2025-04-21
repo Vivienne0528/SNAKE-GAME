@@ -481,11 +481,12 @@ const useFunc = ()=>{
     const [boardLen, setBoardLen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(10);
     const [foodNumbs, setFoodNumbs] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(1);
     const [points, setPoints] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(0);
+    const [time, setTime] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(1000);
     const lenFromQuery = parseInt(router.query.len);
     const foodNumbsFromQuery = parseInt(router.query.foodNumbs);
     const pointsFromQuery = parseInt(router.query.points);
     const boardSize = lenFromQuery * lenFromQuery;
-    const [food, setFood] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])();
+    const [foods, setFoods] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])([]);
     const [snakeBody, setSnakeBody] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])([]);
     const [direction, setDirection] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])('RIGHT');
     const welcome = ()=>{
@@ -508,43 +509,62 @@ const useFunc = ()=>{
             initialHead,
             initialTail
         ];
-        setFood(getFoodRandomPosition);
+        // 生成多个食物
+        const newFoods = [];
+        while(newFoods.length < foodNumbsFromQuery){
+            let pos = Math.floor(Math.random() * boardSize);
+            if (!initialBody.includes(pos) && !newFoods.includes(pos)) {
+                newFoods.push(pos);
+            }
+        }
         setSnakeBody(initialBody);
+        setFoods(newFoods);
         setPoints(0);
     };
-    const updateNewFoodNewSnake = ()=>{
-        if (snakeBody.includes(food)) {
+    const eatFood = ()=>{
+        const head = snakeBody[0];
+        if (foods.includes(head)) {
             setPoints((prev)=>prev + 1);
             switch(direction){
                 case 'UP':
                     setSnakeBody((prev)=>[
                             ...prev,
-                            food - lenFromQuery
+                            head - lenFromQuery
                         ]);
                     break;
                 case 'RIGHT':
                     setSnakeBody((prev)=>[
                             ...prev,
-                            food + 1
+                            head + 1
                         ]);
                     break;
                 case 'LEFT':
                     setSnakeBody((prev)=>[
                             ...prev,
-                            food - 1
+                            head - 1
                         ]);
                     break;
                 case 'DOWN':
                     setSnakeBody((prev)=>[
                             ...prev,
-                            food + lenFromQuery
+                            head + lenFromQuery
                         ]);
                     break;
             }
             let newFood;
+            do {
+                newFood = Math.floor(Math.random() * boardSize);
+            }while (snakeBody.includes(newFood) || foods.includes(newFood))
             do newFood = Math.floor(Math.random() * boardSize);
             while (snakeBody.includes(newFood))
-            setFood(newFood);
+            const eatenFoodIndex = foods.indexOf(head);
+            setFoods((prev)=>{
+                const updated = [
+                    ...prev
+                ];
+                updated[eatenFoodIndex] = newFood;
+                return updated;
+            });
         }
     };
     const arrowRight = ()=>{
@@ -640,6 +660,8 @@ const useFunc = ()=>{
         }
     };
     return {
+        time,
+        setTime,
         boardLen,
         setBoardLen,
         foodNumbs,
@@ -649,9 +671,9 @@ const useFunc = ()=>{
         handleKeyDown,
         moveSnake,
         snakeBody,
-        updateNewFoodNewSnake,
+        eatFood,
         init,
-        food,
+        foods,
         direction,
         points,
         lenFromQuery,
@@ -660,7 +682,7 @@ const useFunc = ()=>{
         pointsFromQuery
     };
 };
-_s(useFunc, "2kHJsWhNPpyjXNbpVmtzsRlg4TU=", false, function() {
+_s(useFunc, "C6UzIGMnvxKE84Jpn78B5cU/A+s=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$router$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRouter"]
     ];
@@ -687,7 +709,7 @@ var _s = __turbopack_context__.k.signature();
 ;
 const Board = ({ len, boardSize })=>{
     _s();
-    const { isGameOver, handleKeyDown, moveSnake, snakeBody, updateNewFoodNewSnake, init, food, direction, points } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$useFunc$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["useFunc"])();
+    const { time, setTime, isGameOver, handleKeyDown, moveSnake, snakeBody, eatFood, init, foods, direction, points } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$useFunc$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["useFunc"])();
     const cells = [];
     const cellSize = 600 / len;
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
@@ -697,10 +719,21 @@ const Board = ({ len, boardSize })=>{
     }["Board.useEffect"], []);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "Board.useEffect": ()=>{
-            updateNewFoodNewSnake();
+            eatFood();
         }
     }["Board.useEffect"], [
         snakeBody
+    ]);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "Board.useEffect": ()=>{
+            if (points >= 10) {
+                setTime(100);
+            } else if (points > 5) {
+                setTime(500);
+            }
+        }
+    }["Board.useEffect"], [
+        points
     ]);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "Board.useEffect": ()=>{
@@ -709,14 +742,13 @@ const Board = ({ len, boardSize })=>{
                     moveSnake();
                     isGameOver();
                 }
-            }["Board.useEffect.interval"], 1000);
+            }["Board.useEffect.interval"], time);
             return ({
                 "Board.useEffect": ()=>clearInterval(interval)
             })["Board.useEffect"];
         }
     }["Board.useEffect"], [
-        food,
-        snakeBody,
+        isGameOver,
         moveSnake
     ]);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
@@ -734,7 +766,7 @@ const Board = ({ len, boardSize })=>{
         direction
     ]);
     for(let index = 0; index < len * len; index++){
-        const isFood = index === food;
+        const isFood = foods.includes(index);
         const isSnake = snakeBody.includes(index);
         cells.push(// <div key={index} className={`${isFood ? "bg-red-500" : ""} ${isSnake ? "bg-blue-500" : ""} border-blue-500 border-1 h-[${cellSize}px] w-[${cellSize}px]`}></div>
         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -745,7 +777,7 @@ const Board = ({ len, boardSize })=>{
             className: `${isFood ? "bg-red-500" : ""} ${isSnake ? "bg-blue-500" : ""} border-blue-500 border-1`
         }, index, false, {
             fileName: "[project]/src/components/board/index.tsx",
-            lineNumber: 45,
+            lineNumber: 52,
             columnNumber: 13
         }, this));
     }
@@ -763,22 +795,22 @@ const Board = ({ len, boardSize })=>{
                     children: cells
                 }, void 0, false, {
                     fileName: "[project]/src/components/board/index.tsx",
-                    lineNumber: 54,
+                    lineNumber: 61,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/board/index.tsx",
-                lineNumber: 52,
+                lineNumber: 59,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/board/index.tsx",
-        lineNumber: 50,
+        lineNumber: 57,
         columnNumber: 9
     }, this);
 };
-_s(Board, "N4dZ6hKPkDMn/Fa4qjY+eWvLdOg=", false, function() {
+_s(Board, "EyCUOGbM+JEK6/VcaIwk//XHrPI=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$useFunc$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["useFunc"]
     ];

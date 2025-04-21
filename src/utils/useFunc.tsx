@@ -8,6 +8,7 @@ export const useFunc = () => {
     const [boardLen, setBoardLen] = useState(10)
     const [foodNumbs, setFoodNumbs] = useState(1)
     const [points, setPoints] = useState(0)
+    const [time, setTime] = useState(1000)
 
     const lenFromQuery = parseInt(router.query.len)
     const foodNumbsFromQuery = parseInt(router.query.foodNumbs)
@@ -15,7 +16,7 @@ export const useFunc = () => {
 
     const boardSize = lenFromQuery * lenFromQuery
 
-    const [food, setFood] = useState()
+    const [foods, setFoods] = useState([])
     const [snakeBody, setSnakeBody] = useState([])
 
     const [direction, setDirection] = useState('RIGHT')
@@ -38,34 +39,51 @@ export const useFunc = () => {
         const initialHead = getSnakeRandomPosition
         const initialTail = initialHead - 1
         const initialBody = [initialHead, initialTail]
-
-        setFood(getFoodRandomPosition)
+        // 生成多个食物
+        const newFoods = []
+        while (newFoods.length < foodNumbsFromQuery) {
+            let pos = Math.floor(Math.random() * boardSize)
+            if (!initialBody.includes(pos) && !newFoods.includes(pos)) {
+                newFoods.push(pos)
+            }
+        }
         setSnakeBody(initialBody)
+        setFoods(newFoods)
         setPoints(0)
     }
 
-    const updateNewFoodNewSnake = () => {
-        if (snakeBody.includes(food)) {
+    const eatFood = () => {
+        const head = snakeBody[0]
+        if (foods.includes(head)) {
             setPoints(prev => prev + 1)
             switch (direction) {
                 case 'UP':
-                    setSnakeBody(prev => [...prev, food - lenFromQuery])
+                    setSnakeBody(prev => [...prev, head - lenFromQuery])
                     break
                 case 'RIGHT':
-                    setSnakeBody(prev => [...prev, food + 1])
+                    setSnakeBody(prev => [...prev, head + 1])
                     break
                 case 'LEFT':
-                    setSnakeBody(prev => [...prev, food - 1])
+                    setSnakeBody(prev => [...prev, head - 1])
                     break
                 case 'DOWN':
-                    setSnakeBody(prev => [...prev, food + lenFromQuery])
+                    setSnakeBody(prev => [...prev, head + lenFromQuery])
                     break
             }
 
             let newFood
+            do {
+                newFood = Math.floor(Math.random() * boardSize)
+            } while (snakeBody.includes(newFood) || foods.includes(newFood))
+
             do (newFood = Math.floor(Math.random() * boardSize))
             while (snakeBody.includes(newFood))
-            setFood(newFood)
+            const eatenFoodIndex = foods.indexOf(head)
+            setFoods(prev => {
+                const updated = [...prev]
+                updated[eatenFoodIndex] = newFood
+                return updated
+            })
         }
     }
 
@@ -157,7 +175,7 @@ export const useFunc = () => {
     }
 
     return {
-        boardLen, setBoardLen, foodNumbs, setFoodNumbs, handleStartGame, isGameOver, handleKeyDown, moveSnake, snakeBody, updateNewFoodNewSnake, init, food, direction, points, lenFromQuery, boardSize, welcome, pointsFromQuery
+        time, setTime, boardLen, setBoardLen, foodNumbs, setFoodNumbs, handleStartGame, isGameOver, handleKeyDown, moveSnake, snakeBody, eatFood, init, foods, direction, points, lenFromQuery, boardSize, welcome, pointsFromQuery
     }
 
 }
