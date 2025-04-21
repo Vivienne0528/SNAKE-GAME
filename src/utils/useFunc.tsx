@@ -1,8 +1,8 @@
-import { useSearchParams } from "next/navigation"
 import { useRouter } from "next/router"
 import { useState } from "react"
 
 export const useFunc = () => {
+
     const router = useRouter()
     const [boardLen, setBoardLen] = useState(10)
     const [foodNumbs, setFoodNumbs] = useState(1)
@@ -17,11 +17,13 @@ export const useFunc = () => {
     const [food, setFood] = useState()
     const [snakeStartPosition, setSnakeStartPosition] = useState(0)
     const [snakeFinalPosition, setSnakeFinalPosition] = useState(0)
+    const [snakeBody, setSnakeBody] = useState([])
+
     const [direction, setDirection] = useState('RIGHT')
 
     const welcome = () => { router.push("/") }
     const handleStartGame = () => {
-        router.push(`/game?len=${boardLen}&foodNums=${foodNumbs}`)
+        router.push(`/game?len=${boardLen}&foodNumbs=${foodNumbs}`)
     }
     // const gameOver = () => { router.push("/gameOver") }
     const gameOver = () => {
@@ -33,7 +35,7 @@ export const useFunc = () => {
         let getFoodRandomPosition = Math.floor(Math.random() * boardSize)
         let getSnakeRandomPosition
         do (getSnakeRandomPosition = Math.floor(Math.random() * boardSize))
-        while (getFoodRandomPosition = getSnakeRandomPosition) getFoodRandomPosition = Math.floor(Math.random() * boardSize)
+        while (getFoodRandomPosition === getSnakeRandomPosition)
         setFood(getFoodRandomPosition)
         setSnakeStartPosition(getSnakeRandomPosition)
         setSnakeFinalPosition(getSnakeRandomPosition - 1)
@@ -41,8 +43,11 @@ export const useFunc = () => {
     }
 
     const updateNewFood = () => {
-        if (snakeStartPosition == food) {
+        if (snakeStartPosition === food) {
             setPoints(prev => prev + 1)
+            // setSnakeBody(prev => prev.push(snakeStartPosition))
+            setSnakeBody(prev => [...prev, snakeStartPosition])
+            setSnakeStartPosition(food)
             let newFood
             do (newFood = Math.floor(Math.random() * boardSize))
             while (newFood === snakeStartPosition) setFood(newFood)
@@ -52,6 +57,7 @@ export const useFunc = () => {
     const arrowRight = () => {
         setSnakeStartPosition((prev) => {
             setSnakeFinalPosition(prev)
+
             return prev + 1
         })
         setDirection('RIGHT')
@@ -89,7 +95,7 @@ export const useFunc = () => {
     }
 
     return {
-        pointsFromQuery, boardLen, router, welcome, gameOver, updateNewFood, init, snakeStartPosition, setFoodNumbs, snakeFinalPosition, food, setPoints, setFood, arrowUp, arrowRight, arrowLeft, arrowDown, isHitWall, direction, points, lenFromQuery, boardSize, setBoardLen, foodNumbs, foodNumbsFromQuery, handleStartGame
+        snakeBody, pointsFromQuery, boardLen, router, welcome, gameOver, updateNewFood, init, snakeStartPosition, setFoodNumbs, snakeFinalPosition, food, setPoints, setFood, arrowUp, arrowRight, arrowLeft, arrowDown, isHitWall, direction, points, lenFromQuery, boardSize, setBoardLen, foodNumbs, foodNumbsFromQuery, handleStartGame
     }
 
 }

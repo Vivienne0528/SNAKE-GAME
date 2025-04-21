@@ -56,12 +56,13 @@ const useFunc = ()=>{
     const [food, setFood] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])();
     const [snakeStartPosition, setSnakeStartPosition] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])(0);
     const [snakeFinalPosition, setSnakeFinalPosition] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])(0);
+    const [snakeBody, setSnakeBody] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])([]);
     const [direction, setDirection] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])('RIGHT');
     const welcome = ()=>{
         router.push("/");
     };
     const handleStartGame = ()=>{
-        router.push(`/game?len=${boardLen}&foodNums=${foodNumbs}`);
+        router.push(`/game?len=${boardLen}&foodNumbs=${foodNumbs}`);
     };
     // const gameOver = () => { router.push("/gameOver") }
     const gameOver = ()=>{
@@ -71,16 +72,21 @@ const useFunc = ()=>{
         let getFoodRandomPosition = Math.floor(Math.random() * boardSize);
         let getSnakeRandomPosition;
         do getSnakeRandomPosition = Math.floor(Math.random() * boardSize);
-        while (getFoodRandomPosition = getSnakeRandomPosition)
-        getFoodRandomPosition = Math.floor(Math.random() * boardSize);
+        while (getFoodRandomPosition === getSnakeRandomPosition)
         setFood(getFoodRandomPosition);
         setSnakeStartPosition(getSnakeRandomPosition);
         setSnakeFinalPosition(getSnakeRandomPosition - 1);
         setPoints(0);
     };
     const updateNewFood = ()=>{
-        if (snakeStartPosition == food) {
+        if (snakeStartPosition === food) {
             setPoints((prev)=>prev + 1);
+            // setSnakeBody(prev => prev.push(snakeStartPosition))
+            setSnakeBody((prev)=>[
+                    ...prev,
+                    snakeStartPosition
+                ]);
+            setSnakeStartPosition(food);
             let newFood;
             do newFood = Math.floor(Math.random() * boardSize);
             while (newFood === snakeStartPosition)
@@ -119,6 +125,7 @@ const useFunc = ()=>{
         return pos < 0 || pos >= boardSize || direction === 'LEFT' && snakeStartPosition % lenFromQuery === 0 || direction === 'RIGHT' && snakeStartPosition % lenFromQuery === lenFromQuery - 1;
     };
     return {
+        snakeBody,
         pointsFromQuery,
         boardLen,
         router,

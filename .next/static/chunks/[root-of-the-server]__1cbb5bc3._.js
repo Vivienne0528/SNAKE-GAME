@@ -488,12 +488,13 @@ const useFunc = ()=>{
     const [food, setFood] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])();
     const [snakeStartPosition, setSnakeStartPosition] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(0);
     const [snakeFinalPosition, setSnakeFinalPosition] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(0);
+    const [snakeBody, setSnakeBody] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])([]);
     const [direction, setDirection] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])('RIGHT');
     const welcome = ()=>{
         router.push("/");
     };
     const handleStartGame = ()=>{
-        router.push(`/game?len=${boardLen}&foodNums=${foodNumbs}`);
+        router.push(`/game?len=${boardLen}&foodNumbs=${foodNumbs}`);
     };
     // const gameOver = () => { router.push("/gameOver") }
     const gameOver = ()=>{
@@ -503,16 +504,21 @@ const useFunc = ()=>{
         let getFoodRandomPosition = Math.floor(Math.random() * boardSize);
         let getSnakeRandomPosition;
         do getSnakeRandomPosition = Math.floor(Math.random() * boardSize);
-        while (getFoodRandomPosition = getSnakeRandomPosition)
-        getFoodRandomPosition = Math.floor(Math.random() * boardSize);
+        while (getFoodRandomPosition === getSnakeRandomPosition)
         setFood(getFoodRandomPosition);
         setSnakeStartPosition(getSnakeRandomPosition);
         setSnakeFinalPosition(getSnakeRandomPosition - 1);
         setPoints(0);
     };
     const updateNewFood = ()=>{
-        if (snakeStartPosition == food) {
+        if (snakeStartPosition === food) {
             setPoints((prev)=>prev + 1);
+            // setSnakeBody(prev => prev.push(snakeStartPosition))
+            setSnakeBody((prev)=>[
+                    ...prev,
+                    snakeStartPosition
+                ]);
+            setSnakeStartPosition(food);
             let newFood;
             do newFood = Math.floor(Math.random() * boardSize);
             while (newFood === snakeStartPosition)
@@ -551,6 +557,7 @@ const useFunc = ()=>{
         return pos < 0 || pos >= boardSize || direction === 'LEFT' && snakeStartPosition % lenFromQuery === 0 || direction === 'RIGHT' && snakeStartPosition % lenFromQuery === lenFromQuery - 1;
     };
     return {
+        snakeBody,
         pointsFromQuery,
         boardLen,
         router,
@@ -579,7 +586,7 @@ const useFunc = ()=>{
         handleStartGame
     };
 };
-_s(useFunc, "rXVNNFgNwR7hhf1wuuCpnBpeEG0=", false, function() {
+_s(useFunc, "UnILNcA+VtHh5Qhyy+veLWbe47w=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$router$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRouter"]
     ];
@@ -606,7 +613,7 @@ var _s = __turbopack_context__.k.signature();
 ;
 const Board = ({ len, boardSize })=>{
     _s();
-    const { updateNewFood, gameOver, init, snakeStartPosition, snakeFinalPosition, food, setPoints, setFood, arrowUp, arrowRight, arrowLeft, arrowDown, isHitWall, direction, points } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$useFunc$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["useFunc"])();
+    const { snakeBody, updateNewFood, gameOver, init, snakeStartPosition, snakeFinalPosition, food, arrowUp, arrowRight, arrowLeft, arrowDown, isHitWall, direction, points } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$useFunc$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["useFunc"])();
     const cells = [];
     const cellSize = 600 / len;
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
@@ -693,7 +700,7 @@ const Board = ({ len, boardSize })=>{
     for(let index = 0; index < len * len; index++){
         const isFood = index === food;
         // const isSnake = snakePosition.includes(index)
-        const isSnake = snakeStartPosition === index || snakeFinalPosition === index;
+        const isSnake = snakeStartPosition === index || snakeFinalPosition === index || snakeBody.includes(index);
         cells.push(// <div key={index} className={`${isFood ? "bg-red-500" : ""} ${isSnake ? "bg-blue-500" : ""} border-blue-500 border-1 h-[${cellSize}px] w-[${cellSize}px]`}></div>
         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
             style: {
@@ -736,7 +743,7 @@ const Board = ({ len, boardSize })=>{
         columnNumber: 9
     }, this);
 };
-_s(Board, "DKCLFZPjHi86pNt72ONrQl3whNg=", false, function() {
+_s(Board, "FHJemPPAK/yMnYQEYZrMqZFvOB8=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$useFunc$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["useFunc"]
     ];

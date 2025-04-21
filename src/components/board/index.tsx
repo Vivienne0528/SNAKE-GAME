@@ -4,7 +4,7 @@ import { useFunc } from "@/utils/useFunc";
 import { useEffect } from "react";
 
 const Board = ({ len, boardSize }) => {
-    const { updateNewFood, gameOver, init, snakeStartPosition, snakeFinalPosition, food, setPoints, setFood, arrowUp, arrowRight, arrowLeft, arrowDown, isHitWall, direction, points } = useFunc()
+    const { snakeBody, updateNewFood, gameOver, init, snakeStartPosition, snakeFinalPosition, food, arrowUp, arrowRight, arrowLeft, arrowDown, isHitWall, direction, points } = useFunc()
 
     const cells = []
     const cellSize = 600 / len
@@ -75,7 +75,7 @@ const Board = ({ len, boardSize }) => {
     for (let index = 0; index < len * len; index++) {
         const isFood = index === food;
         // const isSnake = snakePosition.includes(index)
-        const isSnake = snakeStartPosition === index || snakeFinalPosition === index
+        const isSnake = snakeStartPosition === index || snakeFinalPosition === index || snakeBody.includes(index)
         cells.push(
             // <div key={index} className={`${isFood ? "bg-red-500" : ""} ${isSnake ? "bg-blue-500" : ""} border-blue-500 border-1 h-[${cellSize}px] w-[${cellSize}px]`}></div>
             <div key={index} style={{ height: cellSize, width: cellSize }} className={`${isFood ? "bg-red-500" : ""} ${isSnake ? "bg-blue-500" : ""} border-blue-500 border-1`}></div>
